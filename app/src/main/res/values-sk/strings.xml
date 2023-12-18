@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">Moja aplikácia</string>
     <string name="hello_2">Ahoj 2</string>
+    <string name="submit">Odoslať</string>
 </resources>
