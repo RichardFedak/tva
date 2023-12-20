@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Spending tracker</string>
+    <string name="app_name_short">SPA</string>
+    <string name="bottom_nav_calendar">Calendar</string>
+    <string name="bottom_nav_stats">Stats</string>
     <string name="hello_2">Hello Test</string>
     <string name="submit">Submit</string>
 </resources>

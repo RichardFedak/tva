@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Moja aplikácia</string>
+    <string name="app_name">Trackovanie výdavkov</string>
+    <string name="app_name_short">TVA</string>
+    <string name="bottom_nav_calendar">Kalendár</string>
+    <string name="bottom_nav_stats">Štatistiky</string>
     <string name="hello_2">Ahoj 2</string>
     <string name="submit">Odoslať</string>
 </resources>
