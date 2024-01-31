@@ -5,4 +5,5 @@
     <string name="bottom_nav_stats">Stats</string>
     <string name="hello_2">Hello Test</string>
     <string name="submit">Submit</string>
+    <string name="hello_test_label">Hello Test!</string>
 </resources>
