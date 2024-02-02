@@ -7,4 +7,6 @@
     <string name="hello_2">Ahoj 2</string>
     <string name="submit">Odoslať</string>
     <string name="hello_test_label">Ahoj Test!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
