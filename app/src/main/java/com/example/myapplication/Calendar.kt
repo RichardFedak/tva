@@ -7,15 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.myapplication.databinding.FragmentCalendarBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.viewmodels.SharedViewModel
 
 class Calendar : Fragment() {
 
     private lateinit var binding: FragmentCalendarBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,11 +28,10 @@ class Calendar : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val calendarView = binding.calendarView
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
 
         calendarView.setOnDateChangeListener { _, year, month, day ->
-
-            val selectedDate = "$year-${month + 1}-$day"
-            Toast.makeText(requireContext(), selectedDate, Toast.LENGTH_SHORT).show()
+            sharedViewModel.setSelectedDate(year, month + 1, day)
         }
     }
 
