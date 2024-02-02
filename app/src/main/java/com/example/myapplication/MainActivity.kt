@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.CalendarView
 import androidx.fragment.app.Fragment
 import com.example.myapplication.databinding.ActivityMainBinding
 
@@ -21,10 +22,11 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
     }
 
     private fun replaceFragment(fragment: Fragment){
-        var fragmentManager = supportFragmentManager
+        val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
