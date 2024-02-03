@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import java.time.LocalDate
 
-class SpendingViewModel(application: Application): AndroidViewModel(application) {
+class SpendingsViewModel(application: Application): AndroidViewModel(application) {
     private val repository: ExpenseRepository
 
     init {
