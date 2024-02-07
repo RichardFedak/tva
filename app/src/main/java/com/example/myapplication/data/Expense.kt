@@ -2,15 +2,14 @@ package com.example.myapplication.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.math.BigDecimal
-import java.time.LocalDate
+import java.util.Date
 
 @Entity(tableName = "expense_table")
 data class Expense(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val value: BigDecimal,
+    val value: Double,
     val note: String,
-    val created: LocalDate,
-    val categories: List<Category>
+    val created: Date,
+    val category: Category
 )
