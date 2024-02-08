@@ -9,8 +9,8 @@ import androidx.room.Query
 
 @Dao
 interface ExpenseDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addExpense(expense: Expense)
+    @Insert
+    suspend fun addExpense(expense: Expense)
 
     @Query("SELECT * FROM expense_table ORDER BY created DESC")
     fun getExpenses(): LiveData<List<Expense>>

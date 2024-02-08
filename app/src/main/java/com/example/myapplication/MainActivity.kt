@@ -5,8 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
+import com.example.myapplication.data.Category
+import com.example.myapplication.data.Expense
+import com.example.myapplication.data.ExpenseDatabase
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.viewmodels.SharedViewModel
+import kotlinx.coroutines.launch
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,6 +42,13 @@ class MainActivity : AppCompatActivity() {
             replaceFragment(spendingsFragment)
         })
 
+        val db = Room.databaseBuilder<ExpenseDatabase>(
+            applicationContext,
+            ExpenseDatabase::class.java, "database-name"
+        ).build()
+        lifecycleScope.launch {
+            db.expenseDao().addExpense(Expense(1,20.2,"test", Date(), Category.Food))
+        }
 
     }
 
