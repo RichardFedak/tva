@@ -8,5 +8,8 @@
     <string name="submit">Odoslať</string>
     <string name="hello_test_label">Ahoj Test!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="stats_filter_from">Od</string>
+    <string name="stats_filter_to">Do</string>
+    <string name="stats_filter_button">Filtrovať</string>
 
 </resources>

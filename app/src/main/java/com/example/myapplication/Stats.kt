@@ -1,59 +1,87 @@
 package com.example.myapplication
 
+import CategorySelectionDialog
+import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ListView
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+import com.example.myapplication.data.Category
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Stats.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Stats : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stats, container, false)
+        val view = inflater.inflate(R.layout.fragment_stats, container, false)
+
+        val statsDateFromFilter = view.findViewById<TextView>(R.id.statsDateFromFilter)
+        val statsDateToFilter = view.findViewById<TextView>(R.id.statsDateToFilter)
+        val statsButtonFilter = view.findViewById<Button>(R.id.statsButtonFilter)
+        val selectCategoriesButton = view.findViewById<Button>(R.id.selectCategoriesButton)
+
+        selectCategoriesButton.setOnClickListener {
+            showCategorySelectionDialog()
+        }
+
+
+        statsDateFromFilter.setOnClickListener {
+            showDatePicker(statsDateFromFilter)
+        }
+
+        statsDateToFilter.setOnClickListener {
+            showDatePicker(statsDateToFilter)
+        }
+
+        statsButtonFilter.setOnClickListener{
+            Toast.makeText(requireContext(), "TODO", Toast.LENGTH_SHORT).show()
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Stats.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Stats().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun showDatePicker(textView: TextView) {
+        val calendar = java.util.Calendar.getInstance()
+        val year = calendar.get(java.util.Calendar.YEAR)
+        val month = calendar.get(java.util.Calendar.MONTH)
+        val dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+                // TODO - UPDATE VIEWMODEL PROPERTIES (FROM & TO) FILTER VALUES
+                textView.text = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
+            },
+            year,
+            month,
+            dayOfMonth
+        )
+
+        datePickerDialog.show()
     }
+
+    private fun showCategorySelectionDialog() {
+        val categories = Category.values().map { it.name }.toTypedArray()
+        val selectedCategories = listOf<String>() // Initialize with the selected categories
+        val dialog = CategorySelectionDialog(requireContext(), categories, selectedCategories)
+        dialog.setOnConfirmClickListener {
+            // TODO - USE VIEWMODEL TO STORE SELECTED CATEGORIES
+        }
+        dialog.show()
+    }
+
 }
