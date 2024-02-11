@@ -14,6 +14,8 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import com.example.myapplication.data.Category
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 
 class Stats : Fragment() {
@@ -33,9 +35,10 @@ class Stats : Fragment() {
         val statsDateToFilter = view.findViewById<TextView>(R.id.statsDateToFilter)
         val statsButtonFilter = view.findViewById<Button>(R.id.statsButtonFilter)
         val selectCategoriesButton = view.findViewById<Button>(R.id.selectCategoriesButton)
+        val selectedCategoriesChipGroup = view.findViewById<ChipGroup>(R.id.selectedCategoriesChipGroup)
 
         selectCategoriesButton.setOnClickListener {
-            showCategorySelectionDialog()
+            showCategorySelectionDialog(selectedCategoriesChipGroup)
         }
 
 
@@ -63,7 +66,7 @@ class Stats : Fragment() {
         val datePickerDialog = DatePickerDialog(
             requireContext(),
             { _, selectedYear, selectedMonth, selectedDayOfMonth ->
-                // TODO - UPDATE VIEWMODEL PROPERTIES (FROM & TO) FILTER VALUES
+                // TODO - UPDATE VIEW MODEL PROPERTIES (FROM & TO) FILTER VALUES
                 textView.text = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
             },
             year,
@@ -74,12 +77,26 @@ class Stats : Fragment() {
         datePickerDialog.show()
     }
 
-    private fun showCategorySelectionDialog() {
+    private fun showCategorySelectionDialog(selectedCategoriesChipGroup : ChipGroup) {
         val categories = Category.values().map { it.name }.toTypedArray()
-        val selectedCategories = listOf<String>() // Initialize with the selected categories
+        val selectedCategories = listOf<String>() // TODO GET ALREADY SELECTED CATEGORIES FROM VIEW MODEL
         val dialog = CategorySelectionDialog(requireContext(), categories, selectedCategories)
-        dialog.setOnConfirmClickListener {
-            // TODO - USE VIEWMODEL TO STORE SELECTED CATEGORIES
+        dialog.setOnConfirmClickListener { selectedCategories ->
+            // TODO - USE VIEW MODEL TO STORE SELECTED CATEGORIES
+            // Clear existing chips
+            selectedCategoriesChipGroup.removeAllViews()
+            // Add chips for selected categories
+            for (category in selectedCategories) {
+                val chip = Chip(requireContext())
+                chip.text = category
+                chip.isCloseIconVisible = true
+                chip.setOnCloseIconClickListener {
+                    selectedCategoriesChipGroup.removeView(chip)
+                }
+                selectedCategoriesChipGroup.addView(chip)
+            }
+            // Show the ChipGroup
+            selectedCategoriesChipGroup.visibility = View.VISIBLE
         }
         dialog.show()
     }
