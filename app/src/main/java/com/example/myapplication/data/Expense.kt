@@ -8,7 +8,7 @@ import java.util.Date
 @Entity(tableName = "expense_table")
 data class Expense(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    var id: Int = 0,
     @ColumnInfo(name = "value")
     val value: Double,
     @ColumnInfo(name = "note")
@@ -17,4 +17,5 @@ data class Expense(
     val created: Date,
     @ColumnInfo(name = "category")
     val category: Category,
+
 )

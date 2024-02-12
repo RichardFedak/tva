@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity() {
         sharedViewModel.selectedDate.observe(this, Observer { date ->
             // Handle the selected date change
             // TODO SHOULD BE
-            // val spendingsFragment = Spendings.newInstance(date.toString()) // TODO CALL THIS
-            val spendingsFragment = SpendingDetail.newInstance(date.toString()) // TODO REMOVE THIS LINE - <ONLY TESTING NOW>
+            val spendingsFragment = Spendings.newInstance(date.toString()) // TODO CALL THIS
+            //val spendingsFragment = SpendingDetail.newInstance(date.toString()) // TODO REMOVE THIS LINE - <ONLY TESTING NOW>
             replaceFragment(spendingsFragment)
         })
 
