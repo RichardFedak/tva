@@ -1,12 +1,11 @@
 package com.example.myapplication
 
-import androidx.appcompat.app.AppCompatActivity
+import SpendingDetail
 import android.os.Bundle
-import androidx.core.view.get
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.viewmodels.SharedViewModel
 
@@ -33,10 +32,19 @@ class MainActivity : AppCompatActivity() {
 
         sharedViewModel.selectedDate.observe(this, Observer { date ->
             // Handle the selected date change
-            val spendingDetailFragment = SpendingDetail.newInstance(date.toString())
-            replaceFragment(spendingDetailFragment)
+            // TODO SHOULD BE
+            // val spendingsFragment = Spendings.newInstance(date.toString()) // TODO CALL THIS
+            val spendingsFragment = SpendingDetail.newInstance(date.toString()) // TODO REMOVE THIS LINE - <ONLY TESTING NOW>
+            replaceFragment(spendingsFragment)
         })
 
+//        val db = Room.databaseBuilder<ExpenseDatabase>(
+//            applicationContext,
+//            ExpenseDatabase::class.java, "spendings_db"
+//        ).build()
+//        lifecycleScope.launch {
+//            db.expenseDao().addExpense(Expense(1,20.2,"test", Date(), Category.Food))
+//        }
 
     }
 

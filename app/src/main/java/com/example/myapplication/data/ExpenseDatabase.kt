@@ -4,32 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
-@Database(entities = [Expense::class], version = 1)
+@Database(
+    entities = [Expense::class],
+    version = 1
+)
+@TypeConverters(Converters::class)
 abstract class ExpenseDatabase: RoomDatabase() {
     abstract fun expenseDao(): ExpenseDao
-
-    companion object {
-        @Volatile
-        private var INSTANCE: ExpenseDatabase? = null
-
-        fun getDatabase(context: Context): ExpenseDatabase {
-            val tmpInstance = INSTANCE
-            if (tmpInstance != null) {
-                return tmpInstance
-            }
-
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    ExpenseDatabase::class.java,
-                    "expense_database"
-                ).build()
-
-                INSTANCE = instance
-
-                return instance
-            }
-        }
-    }
 }
