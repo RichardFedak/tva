@@ -13,7 +13,9 @@ abstract class TvaBaseViewModel(application: Application): AndroidViewModel(appl
         val db = Room.databaseBuilder(
             application,
             ExpenseDatabase::class.java, "spendings_db"
-        ).build()
+        )
+        .allowMainThreadQueries() // TODO delete .allowMainThreadQueries()
+        .build()
 
         val expenseDao = db.expenseDao()
 
