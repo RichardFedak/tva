@@ -7,19 +7,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.viewmodels.DetailViewModel
 import com.example.myapplication.viewmodels.SharedViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var sharedViewModel: SharedViewModel
+    private lateinit var detailViewModel: DetailViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(Calendar())
         sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
-
+        detailViewModel = ViewModelProvider(this)[DetailViewModel::class.java]
 
         binding.bottomNav.setOnItemSelectedListener {
             when(it.itemId){
@@ -36,6 +39,10 @@ class MainActivity : AppCompatActivity() {
             val spendingsFragment = Spendings.newInstance(date.toString()) // TODO CALL THIS
             //val spendingsFragment = SpendingDetail.newInstance(date.toString()) // TODO REMOVE THIS LINE - <ONLY TESTING NOW>
             replaceFragment(spendingsFragment)
+        })
+
+        detailViewModel.selectedSpending.observe(this, Observer { _ ->
+            replaceFragment(SpendingDetail())
         })
 
 //        val db = Room.databaseBuilder<ExpenseDatabase>(

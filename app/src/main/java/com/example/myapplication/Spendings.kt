@@ -4,16 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.data.Expense
+import com.example.myapplication.viewmodels.DetailViewModel
 import com.example.myapplication.viewmodels.SpendingsViewModel
 import java.text.SimpleDateFormat
+import java.util.Date
 
 class Spendings: Fragment() {
     private lateinit var spendingsViewModel: SpendingsViewModel
-
     private lateinit var dateTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +39,16 @@ class Spendings: Fragment() {
         // Display selected date in TextView
         dateTextView.text = selectedDate
 
+        // Register on click event
+        val detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
+        val addNewSpendingBtn: ImageButton = view.findViewById(R.id.addNewSpendingBtn)
+        addNewSpendingBtn.setOnClickListener() {_ ->
+            val created: Date = SimpleDateFormat("yyyy-MM-dd").parse(selectedDate)
+            val newSpending = Expense(created = created)
+            detailViewModel.setSelectedSpending(newSpending)
+        }
+
+        // Register adapter
         val spendingsList: ListView = view.findViewById(R.id.spendings_list)
         if (selectedDate != null) {
             val date =  SimpleDateFormat("yyyy-MM-dd").parse(selectedDate)
