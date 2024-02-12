@@ -10,4 +10,5 @@
     <string name="stats_filter_from">From</string>
     <string name="stats_filter_to">To</string>
     <string name="stats_filter_button">Filter</string>
+    <string name="button_for_adding_a_new_spending">Button for adding a new spending.</string>
 </resources>
