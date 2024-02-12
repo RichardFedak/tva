@@ -8,6 +8,7 @@ import java.time.LocalDate
 
 class SharedViewModel : ViewModel() {
     private val _selectedDate = MutableLiveData<LocalDate>()
+
     val selectedDate: LiveData<LocalDate> get() = _selectedDate
 
     fun setSelectedDate(year: Int, month: Int, day: Int) {
