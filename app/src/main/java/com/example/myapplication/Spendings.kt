@@ -4,12 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.viewmodels.SpendingsViewModel
+import java.text.SimpleDateFormat
 
 class Spendings: Fragment() {
+    private lateinit var spendingsViewModel: SpendingsViewModel
 
     private lateinit var dateTextView: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        spendingsViewModel = ViewModelProvider(this)[SpendingsViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +35,16 @@ class Spendings: Fragment() {
 
         // Display selected date in TextView
         dateTextView.text = selectedDate
+
+        val spendingsList: ListView = view.findViewById(R.id.spendings_list)
+        if (selectedDate != null) {
+            val date =  SimpleDateFormat("yyyy-MM-dd").parse(selectedDate)
+            if (date != null) {
+                val spendings = spendingsViewModel.getExpenses(date)
+                spendingsList.isClickable = true
+                spendingsList.adapter = SpendingsListViewAdapter(requireContext(), ArrayList(spendings))
+            }
+        }
 
         return view
     }
