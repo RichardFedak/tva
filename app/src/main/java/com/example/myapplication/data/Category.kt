@@ -1,5 +1,5 @@
 package com.example.myapplication.data
 
 enum class Category {
-    Food, Fun, Other
+    Unset, Food, Fun, Other
 }

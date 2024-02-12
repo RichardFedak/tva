@@ -10,12 +10,11 @@ data class Expense(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     @ColumnInfo(name = "value")
-    val value: Double,
+    val value: Double = 0.0,
     @ColumnInfo(name = "note")
-    val note: String,
+    val note: String = "",
     @ColumnInfo(name = "created")
     val created: Date,
     @ColumnInfo(name = "category")
-    val category: Category,
-
+    val category: Category = Category.Unset,
 )
