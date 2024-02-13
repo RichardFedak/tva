@@ -14,7 +14,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.myapplication.R
 import com.example.myapplication.data.Category
 import com.example.myapplication.data.Expense
 import com.example.myapplication.viewmodels.DetailViewModel
@@ -69,7 +68,7 @@ class SpendingDetail : Fragment() {
 
             Toast.makeText(requireContext(), "Expense created", Toast.LENGTH_SHORT).show()
 
-            // TODO NAVIGATE TO THE CALENDAR ??? OR DAY SUMMARY ?
+            detailViewModel.setSelectedSpending(null) // will navigate user to Spendings
         }
 
         return view
