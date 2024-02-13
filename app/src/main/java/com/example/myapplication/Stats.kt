@@ -13,18 +13,21 @@ import android.widget.ListView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.Category
 import com.example.myapplication.data.Expense
+import com.example.myapplication.viewmodels.SpendingsViewModel
+import com.example.myapplication.viewmodels.StatsViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import java.util.Date
 
 
 class Stats : Fragment() {
-
+    private lateinit var statsViewModel: StatsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        statsViewModel = ViewModelProvider(this)[StatsViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -45,33 +48,25 @@ class Stats : Fragment() {
 
 
         statsDateFromFilter.setOnClickListener {
-            showDatePicker(statsDateFromFilter)
+            showDatePicker(statsDateFromFilter, isFromDate = true)
         }
 
         statsDateToFilter.setOnClickListener {
-            showDatePicker(statsDateToFilter)
+            showDatePicker(statsDateToFilter, isFromDate = false)
         }
 
-        // Initialize ListView
         val expensesListView = view.findViewById<ListView>(R.id.expensesListView)
 
-        // Initialize adapter
         val expensesAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1)
 
-        // Set adapter to ListView
         expensesListView.adapter = expensesAdapter
 
-        // Other existing code...
-
         statsButtonFilter.setOnClickListener{
-            // Generate dummy expenses
-            val dummyExpenses = generateDummyExpenses()
+            val expenses = statsViewModel.getExpenses()
 
-            // Clear existing items in the adapter
             expensesAdapter.clear()
 
-            // Add generated expenses to the adapter
-            for (expense in dummyExpenses) {
+            for(expense in expenses){
                 expensesAdapter.add(expense.created.toString() + ", " + expense.note)
             }
         }
@@ -79,7 +74,7 @@ class Stats : Fragment() {
         return view
     }
 
-    private fun showDatePicker(textView: TextView) {
+    private fun showDatePicker(textView: TextView, isFromDate: Boolean) {
         val calendar = java.util.Calendar.getInstance()
         val year = calendar.get(java.util.Calendar.YEAR)
         val month = calendar.get(java.util.Calendar.MONTH)
@@ -88,8 +83,17 @@ class Stats : Fragment() {
         val datePickerDialog = DatePickerDialog(
             requireContext(),
             { _, selectedYear, selectedMonth, selectedDayOfMonth ->
-                // TODO - UPDATE VIEW MODEL PROPERTIES (FROM & TO) FILTER VALUES
+                val selectedDate = java.util.Calendar.getInstance().apply {
+                    set(selectedYear, selectedMonth, selectedDayOfMonth)
+                }.time
+
                 textView.text = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
+
+                if (isFromDate) {
+                    statsViewModel.setDateFrom(selectedDate)
+                } else {
+                    statsViewModel.setDateTo(selectedDate)
+                }
             },
             year,
             month,
@@ -101,11 +105,13 @@ class Stats : Fragment() {
 
     private fun showCategorySelectionDialog(selectedCategoriesChipGroup : ChipGroup) {
         val categories = Category.values().map { it.name }.toTypedArray()
-        val selectedCategories = listOf<String>() // TODO GET ALREADY SELECTED CATEGORIES FROM VIEW MODEL
+        val selectedCategories = statsViewModel.getCategories()?.map { it.name } ?: emptyList()
         val dialog = CategorySelectionDialog(requireContext(), categories, selectedCategories)
+
         dialog.setOnConfirmClickListener { selectedCategories ->
-            // TODO - USE VIEW MODEL TO STORE SELECTED CATEGORIES
-            // Clear existing chips
+            val selectedCategoriesList = selectedCategories.map { Category.valueOf(it) }
+            statsViewModel.setCategories(selectedCategoriesList)
+
             selectedCategoriesChipGroup.removeAllViews()
             // Add chips for selected categories
             for (category in selectedCategories) {
@@ -113,6 +119,10 @@ class Stats : Fragment() {
                 chip.text = category
                 chip.isCloseIconVisible = true
                 chip.setOnCloseIconClickListener {
+                    val updatedCategoryList = statsViewModel.getCategories()?.toMutableList()?.apply {
+                        remove(Category.valueOf(chip.text.toString()))
+                    }
+                    statsViewModel.setCategories(updatedCategoryList)
                     selectedCategoriesChipGroup.removeView(chip)
                 }
                 selectedCategoriesChipGroup.addView(chip)
@@ -122,25 +132,4 @@ class Stats : Fragment() {
         }
         dialog.show()
     }
-
-    private fun generateDummyExpenses(): List<Expense> {
-        // Create a list to hold generated expenses
-        val expenses = mutableListOf<Expense>()
-
-        // Generate 5 dummy expenses (you can modify this as needed)
-        for (i in 1..15) {
-            val value = (10..100).random().toDouble() // Dummy value between 10 and 100
-            val note = "Expense $i" // Dummy note
-            val created = Date() // Current date as the creation date
-            val category = Category.values().random() // Random category
-
-            // Create the Expense object and add it to the list
-            val expense = Expense(0, value, note, created, category)
-            expenses.add(expense)
-        }
-
-        return expenses
-    }
-
-
 }
