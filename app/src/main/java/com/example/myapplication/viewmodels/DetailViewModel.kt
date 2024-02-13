@@ -26,8 +26,8 @@ class DetailViewModel(application: Application): TvaBaseViewModel(application) {
         }
     }
 
-    fun addExpense(expense: Expense) {
-        repository.addExpense(expense)
+    fun saveExpense(expense: Expense) {
+        repository.saveExpense(expense)
     }
 
     fun getExpense(id: Int): List<Expense> {
