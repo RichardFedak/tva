@@ -4,14 +4,26 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.myapplication.data.Expense
+import java.util.Date
 
 class DetailViewModel(application: Application): TvaBaseViewModel(application) {
-    private val _selectedSpending = MutableLiveData<Expense>()
+    /* lastDate property is used to go back to Spendings after saving spending detail
+       (we need to remember last date, we cannot take it from _selectedSpending because after saving
+       it will be set to null) */
+    var lastDate: Date = Date()
 
-    val selectedSpending: LiveData<Expense> get() = _selectedSpending
+    /* Setting _selectedSpending (to not null instance) will navigate user to SpendingDetail,
+     * setting _selectedSpending to null will close SpendingDetail (will return user
+     * back to Spendings) */
+    private val _selectedSpending = MutableLiveData<Expense?>()
 
-    fun setSelectedSpending(spending: Expense) {
+    val selectedSpending: LiveData<Expense?> get() = _selectedSpending
+
+    fun setSelectedSpending(spending: Expense?) {
         _selectedSpending.value = spending
+        if (spending != null) {
+            lastDate = spending.created
+        }
     }
 
     fun addExpense(expense: Expense) {

@@ -40,8 +40,13 @@ class MainActivity : AppCompatActivity() {
             replaceFragment(spendingsFragment)
         })
 
-        detailViewModel.selectedSpending.observe(this, Observer { _ ->
-            replaceFragment(SpendingDetail())
+        detailViewModel.selectedSpending.observe(this, Observer { spending ->
+            if (spending != null) {
+                replaceFragment(SpendingDetail())
+            } else {
+                val spendingsFragment = Spendings.newInstance(detailViewModel.lastDate)
+                replaceFragment(spendingsFragment)
+            }
         })
 
 //        val db = Room.databaseBuilder<ExpenseDatabase>(

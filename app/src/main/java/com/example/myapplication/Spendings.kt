@@ -72,5 +72,14 @@ class Spendings: Fragment() {
                     putString(ARG_SELECTED_DATE, selectedDate)
                 }
             }
+
+        fun newInstance(selectedDate: Date) =
+            Spendings().apply {
+                arguments = Bundle().apply {
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                    val formattedDate = dateFormat.format(selectedDate)
+                    putString(ARG_SELECTED_DATE, formattedDate)
+                }
+            }
     }
 }
