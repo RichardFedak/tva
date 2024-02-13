@@ -59,6 +59,14 @@ class Spendings: Fragment() {
             }
         }
 
+        val date =  SimpleDateFormat("yyyy-MM-dd").parse(selectedDate)
+        val spendings = spendingsViewModel.getExpenses(date)
+        spendingsList.isClickable = true
+        spendingsList.setOnItemClickListener { _, _, position, _ ->
+            val spending = spendings[position]
+            detailViewModel.setSelectedSpending(spending)
+        }
+
         return view
     }
 
