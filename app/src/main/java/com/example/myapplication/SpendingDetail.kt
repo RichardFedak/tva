@@ -1,3 +1,5 @@
+package com.example.myapplication
+
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
@@ -5,13 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
 import com.example.myapplication.data.Category
+import com.example.myapplication.data.Expense
 import com.example.myapplication.viewmodels.DetailViewModel
 import java.text.SimpleDateFormat
 
@@ -41,6 +46,30 @@ class SpendingDetail : Fragment() {
         categoryTextView = view.findViewById(R.id.categoryTextView)
         categoryTextView.setOnClickListener {
             showCategoryDialog()
+        }
+
+        val saveButton = view.findViewById<Button>(R.id.saveButton)
+        saveButton.setOnClickListener {
+            // Retrieve data from input fields
+            val dateTextView: TextView = view.findViewById(R.id.dateTextView)
+            val expenseEditText: EditText = view.findViewById(R.id.expenseEditText)
+            val noteEditText: EditText = view.findViewById(R.id.noteEditText)
+            val categoryTextView: TextView = view.findViewById(R.id.categoryTextView)
+
+            val date = SimpleDateFormat("dd.MM.yyyy").parse(dateTextView.text.toString())
+            val expenseValue = expenseEditText.text.toString().toDouble()
+            val note = noteEditText.text.toString()
+            val category = Category.valueOf(categoryTextView.text.toString())
+
+            // TODO VALIDATION !!!!!!
+
+            val newExpense = Expense(created = date, value = expenseValue, note = note, category = category)
+
+            detailViewModel.addExpense(newExpense)
+
+            Toast.makeText(requireContext(), "Expense created", Toast.LENGTH_SHORT).show()
+
+            // TODO NAVIGATE TO THE CALENDAR ??? OR DAY SUMMARY ?
         }
 
         return view
