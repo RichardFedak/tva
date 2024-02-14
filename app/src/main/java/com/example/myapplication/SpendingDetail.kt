@@ -40,6 +40,9 @@ class SpendingDetail : Fragment() {
 
             val noteEditText: EditText = view.findViewById(R.id.noteEditText)
             noteEditText.setText(spending.note)
+
+            val categoryTextView: TextView = view.findViewById(R.id.categoryTextView)
+            categoryTextView.text = spending.category.toString()
         }
 
         categoryTextView = view.findViewById(R.id.categoryTextView)
@@ -62,9 +65,11 @@ class SpendingDetail : Fragment() {
 
             // TODO VALIDATION !!!!!!
 
-            val newExpense = Expense(created = date, value = expenseValue, note = note, category = category)
+            // It is OK to take id from selectedSpending because it cannot be changed by the user
+            val id = detailViewModel.selectedSpending.value!!.id
+            val newExpense = Expense(id, expenseValue, note, date, category)
 
-            detailViewModel.addExpense(newExpense)
+            detailViewModel.saveExpense(newExpense)
 
             Toast.makeText(requireContext(), "Expense created", Toast.LENGTH_SHORT).show()
 

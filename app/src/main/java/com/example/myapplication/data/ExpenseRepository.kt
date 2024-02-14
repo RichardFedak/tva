@@ -3,8 +3,13 @@ package com.example.myapplication.data
 import java.util.Date
 
 class ExpenseRepository(private val expenseDao: ExpenseDao) {
-    fun addExpense(expense: Expense) {
-        expenseDao.addExpense(expense)
+    fun saveExpense(expense: Expense) {
+        if (expense.id == 0) {
+            expenseDao.addExpense(expense)
+        } else {
+            expenseDao.updateExpense(expense)
+        }
+
     }
 
     fun getExpense(id: Int): List<Expense> {

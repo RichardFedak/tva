@@ -4,11 +4,15 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface ExpenseDao {
     @Insert
     fun addExpense(expense: Expense)
+
+    @Update
+    fun updateExpense(expense: Expense)
 
     @Query("SELECT * FROM expense_table ORDER BY created DESC")
     fun getExpenses(): List<Expense>

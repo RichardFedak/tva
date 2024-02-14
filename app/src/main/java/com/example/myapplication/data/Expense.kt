@@ -16,5 +16,5 @@ data class Expense(
     @ColumnInfo(name = "created")
     val created: Date,
     @ColumnInfo(name = "category")
-    val category: Category = Category.Unset,
+    val category: Category = Category.Food,
 )
