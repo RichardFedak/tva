@@ -40,6 +40,9 @@ class SpendingDetail : Fragment() {
 
             val noteEditText: EditText = view.findViewById(R.id.noteEditText)
             noteEditText.setText(spending.note)
+
+            val categoryTextView: TextView = view.findViewById(R.id.categoryTextView)
+            categoryTextView.text = spending.category.toString()
         }
 
         categoryTextView = view.findViewById(R.id.categoryTextView)
