@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.Category
@@ -30,8 +31,20 @@ class SpendingDetail : Fragment() {
         val view = inflater.inflate(R.layout.fragment_spending_detail, container, false)
 
         detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
+
         val spending = detailViewModel.selectedSpending.value
+
+        val deleteButton = view.findViewById<Button>(R.id.deleteButton)
+        deleteButton.setOnClickListener {
+            detailViewModel.deleteExpense()
+            detailViewModel.setSelectedSpending(null) // will navigate user to Spendings
+        }
+
         if (spending != null) {
+            if (spending.id == 0) {
+                deleteButton.isVisible = false
+            }
+
             val dateTextView: TextView = view.findViewById(R.id.dateTextView)
             dateTextView.text = SimpleDateFormat("dd.MM.yyyy").format(spending.created)
 
@@ -73,12 +86,6 @@ class SpendingDetail : Fragment() {
 
             Toast.makeText(requireContext(), "Expense created", Toast.LENGTH_SHORT).show()
 
-            detailViewModel.setSelectedSpending(null) // will navigate user to Spendings
-        }
-
-        val deleteButton = view.findViewById<Button>(R.id.deleteButton)
-        deleteButton.setOnClickListener {
-            detailViewModel.deleteExpense()
             detailViewModel.setSelectedSpending(null) // will navigate user to Spendings
         }
 
