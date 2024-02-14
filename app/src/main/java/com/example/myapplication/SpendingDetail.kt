@@ -76,6 +76,12 @@ class SpendingDetail : Fragment() {
             detailViewModel.setSelectedSpending(null) // will navigate user to Spendings
         }
 
+        val deleteButton = view.findViewById<Button>(R.id.deleteButton)
+        deleteButton.setOnClickListener {
+            detailViewModel.deleteExpense()
+            detailViewModel.setSelectedSpending(null) // will navigate user to Spendings
+        }
+
         return view
     }
 
