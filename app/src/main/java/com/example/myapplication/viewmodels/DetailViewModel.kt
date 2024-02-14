@@ -34,7 +34,10 @@ class DetailViewModel(application: Application): TvaBaseViewModel(application) {
         return repository.getExpense(id)
     }
 
-    fun deleteExpense(expense: Expense) {
-        return repository.deleteExpense(expense)
+    fun deleteExpense() {
+        val spending = selectedSpending.value
+        if (spending != null && spending.id != 0) {
+            repository.deleteExpense(spending)
+        }
     }
 }
