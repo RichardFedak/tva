@@ -39,6 +39,7 @@ class Stats : Fragment() {
         val statsDateFromFilter = view.findViewById<TextView>(R.id.statsDateFromFilter)
         val statsDateToFilter = view.findViewById<TextView>(R.id.statsDateToFilter)
         val statsButtonFilter = view.findViewById<Button>(R.id.statsButtonFilter)
+        val statsButtonReset = view.findViewById<Button>(R.id.statsResetButton)
         val selectCategoriesButton = view.findViewById<Button>(R.id.selectCategoriesButton)
         val selectedCategoriesChipGroup = view.findViewById<ChipGroup>(R.id.selectedCategoriesChipGroup)
 
@@ -69,6 +70,14 @@ class Stats : Fragment() {
             for(expense in expenses){
                 expensesAdapter.add(expense.created.toString() + ", " + expense.note)
             }
+        }
+
+        statsButtonReset.setOnClickListener{
+            statsViewModel.resetFilter()
+            statsDateFromFilter.text = getString(R.string.stats_filter_from)
+            statsDateToFilter.text = getString(R.string.stats_filter_to)
+            selectedCategoriesChipGroup.removeAllViews()
+            selectedCategoriesChipGroup.visibility = View.GONE
         }
 
         return view
