@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
@@ -31,6 +32,21 @@ class SpendingDetail : Fragment() {
         val view = inflater.inflate(R.layout.fragment_spending_detail, container, false)
 
         detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
+
+        val backButton = view.findViewById<ImageButton>(R.id.backButton)
+        backButton.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+
+            builder.setMessage(getString(R.string.discard_changes_dialog_msg))
+                .setPositiveButton(getString(R.string.discard_changes_dialog_discard)) { dialog, id ->
+                    detailViewModel.setSelectedSpending(null) // will navigate user to Spendings
+                }
+                .setNegativeButton(getString(R.string.discard_changes_dialog_no)) { dialog, id ->
+
+                }
+
+            builder.create().show()
+        }
 
         val spending = detailViewModel.selectedSpending.value
 

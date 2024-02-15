@@ -11,4 +11,8 @@
     <string name="stats_filter_to">To</string>
     <string name="stats_filter_button">Filter</string>
     <string name="button_for_adding_a_new_spending">Button for adding a new spending.</string>
+    <string name="back_button">Back button</string>
+    <string name="discard_changes_dialog_discard">Discard</string>
+    <string name="discard_changes_dialog_no">No</string>
+    <string name="discard_changes_dialog_msg">Discard changes?</string>
 </resources>
