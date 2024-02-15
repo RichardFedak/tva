@@ -19,10 +19,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(Calendar())
         sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
         detailViewModel = ViewModelProvider(this)[DetailViewModel::class.java]
-
+        replaceFragment(Calendar())
         binding.bottomNav.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.bottom_nav_calendar -> replaceFragment(Calendar())
@@ -33,10 +32,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         sharedViewModel.selectedDate.observe(this, Observer { date ->
-            // Handle the selected date change
-            // TODO SHOULD BE
-            val spendingsFragment = Spendings.newInstance(date.toString()) // TODO CALL THIS
-            //val spendingsFragment = SpendingDetail.newInstance(date.toString()) // TODO REMOVE THIS LINE - <ONLY TESTING NOW>
+            val spendingsFragment = Spendings.newInstance(date.toString())
             replaceFragment(spendingsFragment)
         })
 
@@ -48,21 +44,15 @@ class MainActivity : AppCompatActivity() {
                 replaceFragment(spendingsFragment)
             }
         })
-
-//        val db = Room.databaseBuilder<ExpenseDatabase>(
-//            applicationContext,
-//            ExpenseDatabase::class.java, "spendings_db"
-//        ).build()
-//        lifecycleScope.launch {
-//            db.expenseDao().addExpense(Expense(1,20.2,"test", Date(), Category.Food))
-//        }
-
     }
 
     private fun replaceFragment(fragment: Fragment){
+        if (!::sharedViewModel.isInitialized) return
+        if (sharedViewModel.activeFragment.value?.javaClass == fragment.javaClass) return
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
+        sharedViewModel.setActiveFragment(fragment)
         fragmentTransaction.commit()
     }
 }
