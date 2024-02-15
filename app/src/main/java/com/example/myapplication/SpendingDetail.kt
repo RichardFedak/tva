@@ -72,11 +72,26 @@ class SpendingDetail : Fragment() {
             val categoryTextView: TextView = view.findViewById(R.id.categoryTextView)
 
             val date = SimpleDateFormat("dd.MM.yyyy").parse(dateTextView.text.toString())
-            val expenseValue = expenseEditText.text.toString().toDouble()
+            val expenseValueString = expenseEditText.text.toString()
             val note = noteEditText.text.toString()
             val category = Category.valueOf(categoryTextView.text.toString())
 
-            // TODO VALIDATION !!!!!!
+            if (expenseValueString.isBlank()) {
+                Toast.makeText(requireContext(), "Expense value can not be empty", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val expenseValue = try {
+                expenseValueString.toDouble()
+            } catch (e: NumberFormatException) {
+                Toast.makeText(requireContext(), "Invalid number", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (expenseValue <= 0) {
+                Toast.makeText(requireContext(), "Expense value must be greater than zero", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             // It is OK to take id from selectedSpending because it cannot be changed by the user
             val id = detailViewModel.selectedSpending.value!!.id
