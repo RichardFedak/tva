@@ -147,13 +147,33 @@ class SpendingDetail : Fragment() {
         return builder.create()
     }
 
+    private fun HasInputsChanged(): Boolean {
+        val spending = detailViewModel.selectedSpending.value ?: return false
+
+        if (spendingValueEditText.text.toString() != spending.value.toString()) {
+            return true
+        }
+        if (noteEditText.text.toString() != spending.note) {
+            return true
+        }
+        if (categoryTextView.text.toString() != spending.category.toString()) {
+            return true
+        }
+
+        return false
+    }
+
     private fun initBackButton(view: View) {
         val backAlertDialog = createBackAlertDialog()
 
         val backButton = view.findViewById<ImageButton>(R.id.backButton)
 
         backButton.setOnClickListener {
-            backAlertDialog.show()
+            if (HasInputsChanged()) {
+                backAlertDialog.show()
+            } else {
+                navigateBackToSpendings()
+            }
         }
     }
 
