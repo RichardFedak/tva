@@ -22,8 +22,11 @@ import com.example.myapplication.viewmodels.DetailViewModel
 import java.text.SimpleDateFormat
 
 class SpendingDetail : Fragment() {
-    private lateinit var detailViewModel: DetailViewModel
+    private lateinit var dateTextView: TextView
+    private lateinit var spendingValueEditText: EditText
+    private lateinit var noteEditText: EditText
     private lateinit var categoryTextView: TextView
+    private lateinit var detailViewModel: DetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,94 +36,125 @@ class SpendingDetail : Fragment() {
 
         detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
 
-        val backButton = view.findViewById<ImageButton>(R.id.backButton)
-        backButton.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
+        initBackButton(view)
 
-            builder.setMessage(getString(R.string.discard_changes_dialog_msg))
-                .setPositiveButton(getString(R.string.discard_changes_dialog_discard)) { dialog, id ->
-                    detailViewModel.setSelectedSpending(null) // will navigate user to Spendings
-                }
-                .setNegativeButton(getString(R.string.discard_changes_dialog_no)) { dialog, id ->
-
-                }
-
-            builder.create().show()
-        }
+        dateTextView = view.findViewById(R.id.dateTextView)
+        spendingValueEditText = view.findViewById(R.id.expenseEditText)
+        noteEditText = view.findViewById(R.id.noteEditText)
+        categoryTextView = view.findViewById(R.id.categoryTextView)
 
         val spending = detailViewModel.selectedSpending.value
-
-        val deleteButton = view.findViewById<Button>(R.id.deleteButton)
-        deleteButton.setOnClickListener {
-            detailViewModel.deleteExpense()
-            detailViewModel.setSelectedSpending(null) // will navigate user to Spendings
-        }
-
         if (spending != null) {
-            if (spending.id == 0) {
-                deleteButton.isVisible = false
-            }
+            initDeleteButton(view, spending.id == 0)
 
-            val dateTextView: TextView = view.findViewById(R.id.dateTextView)
             dateTextView.text = SimpleDateFormat("dd.MM.yyyy").format(spending.created)
-
-            val expenseEditText: EditText = view.findViewById(R.id.expenseEditText)
-            expenseEditText.setText(spending.value.toString())
-
-            val noteEditText: EditText = view.findViewById(R.id.noteEditText)
+            spendingValueEditText.setText(spending.value.toString())
             noteEditText.setText(spending.note)
-
-            val categoryTextView: TextView = view.findViewById(R.id.categoryTextView)
             categoryTextView.text = spending.category.toString()
         }
 
-        categoryTextView = view.findViewById(R.id.categoryTextView)
         categoryTextView.setOnClickListener {
             showCategoryDialog()
         }
 
-        val saveButton = view.findViewById<Button>(R.id.saveButton)
-        saveButton.setOnClickListener {
-            // Retrieve data from input fields
-            val dateTextView: TextView = view.findViewById(R.id.dateTextView)
-            val expenseEditText: EditText = view.findViewById(R.id.expenseEditText)
-            val noteEditText: EditText = view.findViewById(R.id.noteEditText)
-            val categoryTextView: TextView = view.findViewById(R.id.categoryTextView)
+        initSaveButton(view)
 
+        return view
+    }
+
+    private fun initSaveButton(view: View) {
+        val saveButton = view.findViewById<Button>(R.id.saveButton)
+
+        saveButton.setOnClickListener {
             val date = SimpleDateFormat("dd.MM.yyyy").parse(dateTextView.text.toString())
-            val expenseValueString = expenseEditText.text.toString()
+            val spendingValueString = spendingValueEditText.text.toString()
             val note = noteEditText.text.toString()
             val category = Category.valueOf(categoryTextView.text.toString())
 
-            if (expenseValueString.isBlank()) {
-                Toast.makeText(requireContext(), "Expense value can not be empty", Toast.LENGTH_SHORT).show()
+            if (!isSpendingValueValid(spendingValueString)) {
                 return@setOnClickListener
             }
-
-            val expenseValue = try {
-                expenseValueString.toDouble()
-            } catch (e: NumberFormatException) {
-                Toast.makeText(requireContext(), "Invalid number", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            if (expenseValue <= 0) {
-                Toast.makeText(requireContext(), "Expense value must be greater than zero", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            val expenseValue = spendingValueString.toDouble()
 
             // It is OK to take id from selectedSpending because it cannot be changed by the user
             val id = detailViewModel.selectedSpending.value!!.id
             val newExpense = Expense(id, expenseValue, note, date, category)
-
             detailViewModel.saveExpense(newExpense)
 
-            Toast.makeText(requireContext(), "Expense created", Toast.LENGTH_SHORT).show()
+            showToast("Expense created")
 
-            detailViewModel.setSelectedSpending(null) // will navigate user to Spendings
+            navigateBackToSpendings()
+        }
+    }
+
+    private fun isSpendingValueValid(spendingValueString: String): Boolean {
+        if (spendingValueString.isBlank()) {
+            showToast("Expense value can not be empty")
+            return false
         }
 
-        return view
+        val expenseValue = try {
+            spendingValueString.toDouble()
+        } catch (e: NumberFormatException) {
+            showToast("Invalid number")
+            return false
+        }
+
+        if (expenseValue <= 0) {
+            showToast("Expense value must be greater than zero")
+            return false
+        }
+
+        return true
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(
+            requireContext(),
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun navigateBackToSpendings() {
+        detailViewModel.setSelectedSpending(null)
+    }
+
+    private fun initDeleteButton(view: View, shouldHideDeleteButton: Boolean) {
+        val deleteButton = view.findViewById<Button>(R.id.deleteButton)
+
+        if (shouldHideDeleteButton) {
+            deleteButton.isVisible = false
+        } else {
+            deleteButton.setOnClickListener {
+                detailViewModel.deleteExpense()
+                navigateBackToSpendings()
+            }
+        }
+    }
+
+    private fun createBackAlertDialog(): AlertDialog {
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setMessage(getString(R.string.discard_changes_dialog_msg))
+            .setPositiveButton(getString(R.string.discard_changes_dialog_discard)) { _, _ ->
+                navigateBackToSpendings()
+            }
+            .setNegativeButton(getString(R.string.discard_changes_dialog_no)) { dialog, _ ->
+                dialog.cancel()
+            }
+
+        return builder.create()
+    }
+
+    private fun initBackButton(view: View) {
+        val backAlertDialog = createBackAlertDialog()
+
+        val backButton = view.findViewById<ImageButton>(R.id.backButton)
+
+        backButton.setOnClickListener {
+            backAlertDialog.show()
+        }
     }
 
     private fun showCategoryDialog() {
