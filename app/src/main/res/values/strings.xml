@@ -24,4 +24,8 @@
     <string name="delete_button">Delete</string>
     <string name="select_categories_label">Select Categories</string>
     <string name="confirm_button">Confirm</string>
+    <string name="toast_expense_created">Expense created</string>
+    <string name="toast_spending_value_can_not_be_empty">Expense value can not be empty</string>
+    <string name="toast_invalid_number">Invalid number</string>
+    <string name="toat_spending_value_must_be_greater_than_zero">Expense value must be greater than zero</string>
 </resources>
