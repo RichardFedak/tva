@@ -41,4 +41,9 @@ class StatsViewModel(application: Application): TvaBaseViewModel(application) {
             }
         }
     }
+    fun resetFilter() {
+        dateFrom = null
+        dateTo = null
+        categories = null
+    }
 }
