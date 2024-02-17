@@ -11,5 +11,10 @@
     <string name="stats_filter_from">Od</string>
     <string name="stats_filter_to">Do</string>
     <string name="stats_filter_button">Filtrovať</string>
+    <string name="button_for_adding_a_new_spending">Pridaj nový výdavok</string>
+    <string name="back_button">Späť</string>
+    <string name="discard_changes_dialog_discard">Zahodiť</string>
+    <string name="discard_changes_dialog_no">Nie</string>
+    <string name="discard_changes_dialog_msg">Zahodiť zmeny?</string>
 
 </resources>
