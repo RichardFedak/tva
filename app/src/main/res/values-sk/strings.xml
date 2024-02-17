@@ -16,5 +16,13 @@
     <string name="discard_changes_dialog_discard">Zahodiť</string>
     <string name="discard_changes_dialog_no">Nie</string>
     <string name="discard_changes_dialog_msg">Zahodiť zmeny?</string>
-
+    <string name="spending_label">Výdavok</string>
+    <string name="note_label">Poznámka</string>
+    <string name="category_label">Kategória</string>
+    <string name="select_category_label">Výber kategórie</string>
+    <string name="date_label">Dátum</string>
+    <string name="save_button">Uložiť</string>
+    <string name="delete_button">Zmazať</string>
+    <string name="select_categories_label">Vyberte kategórie</string>
+    <string name="confirm_button">Potvrdiť</string>
 </resources>

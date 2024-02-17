@@ -46,7 +46,7 @@
             android:id="@+id/selectCategoriesButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Categories"
+            android:text="@string/select_categories_label"
             android:layout_marginTop="20dp" />
 
         <com.google.android.material.chip.ChipGroup
@@ -69,7 +69,4 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"/>
     </LinearLayout>
-
-
-
 </FrameLayout>
