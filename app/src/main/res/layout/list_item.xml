@@ -15,10 +15,19 @@
         android:textAppearance="?android:textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/noteTextView"
+        android:id="@+id/categoryTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:padding="8dp"
+        android:text=""
+        android:textAppearance="?android:textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/noteTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
         android:padding="8dp"
         android:text=""
         android:textAppearance="?android:textAppearanceMedium" />
