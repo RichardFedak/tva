@@ -29,8 +29,10 @@
                 android:id="@+id/dateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_weight="1"
-                android:text="" />
+                android:text=""
+                android:textSize="30sp"/>
 
             <ImageButton
                 android:id="@+id/addNewSpendingBtn"
