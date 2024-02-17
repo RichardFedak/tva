@@ -1,91 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Stats"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Stats">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="23dp"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/statsDateFromFilter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/stats_filter_from"
+            android:textSize="20sp"
+            android:background="@drawable/border_background"
+            android:textAlignment="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="12dp"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="32"
+            android:shadowColor="#777" />
+
+        <TextView
+            android:id="@+id/statsDateToFilter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/stats_filter_to"
+            android:textSize="20sp"
+            android:background="@drawable/border_background"
+            android:textAlignment="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="24dp"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="32"
+            android:shadowColor="#777" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/selectCategoriesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_categories_label"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#777788"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="32"
+        android:shadowColor="#333" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/selectedCategoriesChipGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/statsDateFromFilter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/stats_filter_from"
-                android:textSize="20sp"
-                android:background="@drawable/border_background"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:layout_marginEnd="50dp" />
-
-            <TextView
-                android:id="@+id/statsDateToFilter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/stats_filter_to"
-                android:textSize="20sp"
-                android:background="@drawable/border_background"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:layout_marginStart="50dp" />
-        </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
         <Button
-            android:id="@+id/selectCategoriesButton"
-            android:layout_width="wrap_content"
+            android:id="@+id/statsButtonFilter"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Select Categories"
-            android:layout_marginTop="20dp" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/selectedCategoriesChipGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:visibility="gone"
-            android:gravity="center"
-            android:orientation="horizontal" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-            <Button
-                android:id="@+id/statsButtonFilter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/stats_filter_button"/>
-
-            <Button
-                android:id="@+id/statsResetButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reset"/>
-        </LinearLayout>
-
-
-        <ListView
-            android:id="@+id/expensesListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/stats_filter_button"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="2dp"
+            android:backgroundTint="#335577"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="32"
+            android:shadowColor="#333" />
             android:divider="@android:color/transparent"
             android:dividerHeight="10sp"
             android:layout_marginTop="20dp"/>
 
+        <Button
+            android:id="@+id/statsResetButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/reset_button"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="4dp"
+            android:backgroundTint="#889"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="32"
+            android:shadowColor="#333" />
     </LinearLayout>
 
-</FrameLayout>
+    <ListView
+        android:id="@+id/expensesListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"/>
+</LinearLayout>
