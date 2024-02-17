@@ -3,24 +3,19 @@ package com.example.myapplication
 import CategorySelectionDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
-import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.Category
-import com.example.myapplication.data.Expense
-import com.example.myapplication.viewmodels.SpendingsViewModel
 import com.example.myapplication.viewmodels.StatsViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import java.util.Date
 
 
 class Stats : Fragment() {
@@ -68,7 +63,9 @@ class Stats : Fragment() {
             expensesAdapter.clear()
 
             for(expense in expenses){
-                expensesAdapter.add(expense.category.toString() + ": " + expense.totalExpense)
+                val totalExpenseRounded = String.format("%.2f", expense.totalExpense)
+
+                expensesAdapter.add(expense.category.toString() + ": " + totalExpenseRounded)
             }
         }
 
