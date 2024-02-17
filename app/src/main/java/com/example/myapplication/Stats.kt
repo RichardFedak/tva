@@ -68,7 +68,7 @@ class Stats : Fragment() {
             expensesAdapter.clear()
 
             for(expense in expenses){
-                expensesAdapter.add(expense.created.toString() + ", " + expense.note)
+                expensesAdapter.add(expense.category.toString() + ": " + expense.totalExpense)
             }
         }
 

@@ -21,18 +21,18 @@ class ExpenseRepository(private val expenseDao: ExpenseDao) {
         return expenseDao.getExpensesByDate(dateInMillis)
     }
 
-    fun getExpenses(from: Date?, to: Date?): List<Expense> {
+    fun getExpenses(from: Date?, to: Date?): List<ExpenseByCategory> {
         val fromInMillis = from?.time
         val toInMillis = to?.time
 
         return if (fromInMillis != null && toInMillis != null) {
-            expenseDao.getExpensesFromToDates(fromInMillis, toInMillis)
+            expenseDao.getExpensesFromToDatesByCategory(fromInMillis, toInMillis)
         } else if (toInMillis != null) {
-            expenseDao.getExpensesToDate(toInMillis)
+            expenseDao.getExpensesToDateByCategory(toInMillis)
         } else if (fromInMillis != null) {
-            expenseDao.getExpensesFromDate(fromInMillis)
+            expenseDao.getExpensesFromDateByCategory(fromInMillis)
         } else {
-            expenseDao.getExpenses()
+            expenseDao.getAllExpensesByCategory()
         }
     }
 
