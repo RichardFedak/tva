@@ -29,4 +29,5 @@
     <string name="toast_spending_value_can_not_be_empty">Výdavok nesmie ostať prázdny</string>
     <string name="toast_invalid_number">Neplatné číslo</string>
     <string name="toat_spending_value_must_be_greater_than_zero">Výdavok musí byť kladné číslo</string>
+    <string name="reset_button">Reset</string>
 </resources>
