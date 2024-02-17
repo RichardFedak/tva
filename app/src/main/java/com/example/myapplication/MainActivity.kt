@@ -1,13 +1,19 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.forEach
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.viewmodels.DetailViewModel
 import com.example.myapplication.viewmodels.SharedViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+
         sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
         detailViewModel = ViewModelProvider(this)[DetailViewModel::class.java]
         replaceFragment(Calendar())
@@ -34,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         sharedViewModel.selectedDate.observe(this, Observer { date ->
             val spendingsFragment = Spendings.newInstance(date.toString())
             replaceFragment(spendingsFragment)
+            uncheckAllNavItems(bottomNav)
         })
 
         detailViewModel.selectedSpending.observe(this, Observer { spending ->
@@ -46,6 +55,12 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    private fun uncheckAllNavItems(bottomNav: BottomNavigationView) {
+        bottomNav.menu.setGroupCheckable(0, true, false)
+        bottomNav.menu.forEach { it.isChecked = false }
+        bottomNav.menu.setGroupCheckable(0, true, true)
+    }
+
     private fun replaceFragment(fragment: Fragment){
         if (!::sharedViewModel.isInitialized) return
         if (sharedViewModel.activeFragment.value?.javaClass == fragment.javaClass) return
@@ -55,4 +70,6 @@ class MainActivity : AppCompatActivity() {
         sharedViewModel.setActiveFragment(fragment)
         fragmentTransaction.commit()
     }
+
+
 }
