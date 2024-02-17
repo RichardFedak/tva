@@ -47,6 +47,8 @@
             android:id="@+id/spendings_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/list_item"/>
+            tools:listitem="@layout/list_item"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5sp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

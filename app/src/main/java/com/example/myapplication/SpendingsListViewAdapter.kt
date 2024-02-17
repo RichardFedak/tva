@@ -10,12 +10,29 @@ import com.example.myapplication.data.Expense
 
 class SpendingsListViewAdapter(private val context: Context, private val spendings: ArrayList<Expense>)
     : ArrayAdapter<Expense>(context, R.layout.list_item, spendings) {
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.list_item, null)
 
-        val valueTextView: TextView = view.findViewById(R.id.valueTextView)
-        val categoryTextView: TextView = view.findViewById(R.id.categoryTextView)
-        val noteTextView: TextView = view.findViewById(R.id.noteTextView)
+    private class ViewHolder {
+        val valueTextView: TextView
+        val categoryTextView: TextView
+        val noteTextView: TextView
+
+        constructor(view: View) {
+            valueTextView = view.findViewById(R.id.valueTextView)
+            categoryTextView = view.findViewById(R.id.categoryTextView)
+            noteTextView = view.findViewById(R.id.noteTextView)
+        }
+    }
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        var convertView = convertView
+        val viewHolder: ViewHolder
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
+            viewHolder = ViewHolder(convertView)
+            convertView.tag = viewHolder
+        } else {
+            viewHolder = convertView.tag as ViewHolder
+        }
 
         val spending = spendings[position]
         val valueText = if (spending.value > 999) {
@@ -23,17 +40,17 @@ class SpendingsListViewAdapter(private val context: Context, private val spendin
         } else {
             spending.value.toString()
         }
-        valueTextView.text = valueText
+        viewHolder.valueTextView.text = valueText
 
-        categoryTextView.text = spending.category.name
+        viewHolder.categoryTextView.text = spending.category.name
 
         val truncatedNote = if (spending.note.length > 20) {
             spending.note.substring(0, 20) + "..."
         } else {
             spending.note
         }
-        noteTextView.text = truncatedNote
+        viewHolder.noteTextView.text = truncatedNote
 
-        return view
+        return convertView!!
     }
 }
