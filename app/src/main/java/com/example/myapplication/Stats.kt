@@ -3,24 +3,19 @@ package com.example.myapplication
 import CategorySelectionDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
-import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.Category
-import com.example.myapplication.data.Expense
-import com.example.myapplication.viewmodels.SpendingsViewModel
 import com.example.myapplication.viewmodels.StatsViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import java.util.Date
 
 
 class Stats : Fragment() {
@@ -39,7 +34,6 @@ class Stats : Fragment() {
         val statsDateFromFilter = view.findViewById<TextView>(R.id.statsDateFromFilter)
         val statsDateToFilter = view.findViewById<TextView>(R.id.statsDateToFilter)
         val statsButtonFilter = view.findViewById<Button>(R.id.statsButtonFilter)
-        val statsButtonReset = view.findViewById<Button>(R.id.statsResetButton)
         val selectCategoriesButton = view.findViewById<Button>(R.id.selectCategoriesButton)
         val selectedCategoriesChipGroup = view.findViewById<ChipGroup>(R.id.selectedCategoriesChipGroup)
 
@@ -70,14 +64,6 @@ class Stats : Fragment() {
             for(expense in expenses){
                 expensesAdapter.add(expense.created.toString() + ", " + expense.note)
             }
-        }
-
-        statsButtonReset.setOnClickListener{
-            statsViewModel.resetFilter()
-            statsDateFromFilter.text = getString(R.string.stats_filter_from)
-            statsDateToFilter.text = getString(R.string.stats_filter_to)
-            selectedCategoriesChipGroup.removeAllViews()
-            selectedCategoriesChipGroup.visibility = View.GONE
         }
 
         return view
