@@ -38,9 +38,6 @@ class Spendings: Fragment() {
         // Retrieve selected date from arguments
         val selectedDate = arguments?.getString(ARG_SELECTED_DATE)
 
-        // Display selected date in TextView
-        dateTextView.text = selectedDate
-
         // Register on click event
         val detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
         val addNewSpendingBtn: ImageButton = view.findViewById(R.id.addNewSpendingBtn)
@@ -56,6 +53,7 @@ class Spendings: Fragment() {
         val spendingsList: ListView = view.findViewById(R.id.spendings_list)
         if (selectedDate != null) {
             val date = dateFormat.parse(selectedDate)
+            dateTextView.text = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date)
             if (date != null) {
                 val spendings = spendingsViewModel.getExpenses(date)
                 spendingsList.isClickable = true
