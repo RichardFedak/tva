@@ -20,6 +20,7 @@ import com.example.myapplication.data.Category
 import com.example.myapplication.data.Expense
 import com.example.myapplication.viewmodels.DetailViewModel
 import java.text.SimpleDateFormat
+import java.util.Locale
 
 class SpendingDetail : Fragment() {
     private lateinit var dateTextView: TextView
@@ -47,7 +48,8 @@ class SpendingDetail : Fragment() {
         if (spending != null) {
             initDeleteButton(view, spending.id == 0)
 
-            dateTextView.text = SimpleDateFormat("dd.MM.yyyy").format(spending.created)
+            val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+            dateTextView.text = dateFormat.format(spending.created)
             spendingValueEditText.setText(spending.value.toString())
             noteEditText.setText(spending.note)
             categoryTextView.text = spending.category.toString()
@@ -66,7 +68,8 @@ class SpendingDetail : Fragment() {
         val saveButton = view.findViewById<Button>(R.id.saveButton)
 
         saveButton.setOnClickListener {
-            val date = SimpleDateFormat("dd.MM.yyyy").parse(dateTextView.text.toString())
+            val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+            val date = dateFormat.parse(dateTextView.text.toString())
             val spendingValueString = spendingValueEditText.text.toString()
             val note = noteEditText.text.toString()
             val category = Category.valueOf(categoryTextView.text.toString())
@@ -147,20 +150,18 @@ class SpendingDetail : Fragment() {
         return builder.create()
     }
 
-    private fun HasInputsChanged(): Boolean {
+    private fun hasInputsChanged(): Boolean {
         val spending = detailViewModel.selectedSpending.value ?: return false
 
         if (spendingValueEditText.text.toString() != spending.value.toString()) {
             return true
         }
+
         if (noteEditText.text.toString() != spending.note) {
             return true
         }
-        if (categoryTextView.text.toString() != spending.category.toString()) {
-            return true
-        }
 
-        return false
+        return categoryTextView.text.toString() != spending.category.toString()
     }
 
     private fun initBackButton(view: View) {
@@ -169,7 +170,7 @@ class SpendingDetail : Fragment() {
         val backButton = view.findViewById<ImageButton>(R.id.backButton)
 
         backButton.setOnClickListener {
-            if (HasInputsChanged()) {
+            if (hasInputsChanged()) {
                 backAlertDialog.show()
             } else {
                 navigateBackToSpendings()
@@ -183,7 +184,11 @@ class SpendingDetail : Fragment() {
         val view = inflater.inflate(R.layout.category_dialog_layout, null)
 
         val categoryListView = view.findViewById<ListView>(R.id.categoryListView)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, Category.values())
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            Category.entries.toTypedArray()
+        )
         categoryListView.adapter = adapter
 
         val dialog = builder.setView(view)
