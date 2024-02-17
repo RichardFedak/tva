@@ -15,4 +15,17 @@
     <string name="discard_changes_dialog_discard">Discard</string>
     <string name="discard_changes_dialog_no">No</string>
     <string name="discard_changes_dialog_msg">Discard changes?</string>
+    <string name="spending_label">Spending</string>
+    <string name="note_label">Note</string>
+    <string name="category_label">Category</string>
+    <string name="select_category_label">Select category</string>
+    <string name="date_label">Date</string>
+    <string name="save_button">Save</string>
+    <string name="delete_button">Delete</string>
+    <string name="select_categories_label">Select Categories</string>
+    <string name="confirm_button">Confirm</string>
+    <string name="toast_expense_created">Expense created</string>
+    <string name="toast_spending_value_can_not_be_empty">Expense value can not be empty</string>
+    <string name="toast_invalid_number">Invalid number</string>
+    <string name="toat_spending_value_must_be_greater_than_zero">Expense value must be greater than zero</string>
 </resources>

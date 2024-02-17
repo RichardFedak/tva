@@ -81,7 +81,7 @@ class SpendingDetail : Fragment() {
             val newExpense = Expense(id, expenseValue, note, date, category)
             detailViewModel.saveExpense(newExpense)
 
-            showToast("Expense created")
+            showToast(getString(R.string.toast_expense_created))
 
             navigateBackToSpendings()
         }
@@ -89,19 +89,19 @@ class SpendingDetail : Fragment() {
 
     private fun isSpendingValueValid(spendingValueString: String): Boolean {
         if (spendingValueString.isBlank()) {
-            showToast("Expense value can not be empty")
+            showToast(getString(R.string.toast_spending_value_can_not_be_empty))
             return false
         }
 
         val expenseValue = try {
             spendingValueString.toDouble()
         } catch (e: NumberFormatException) {
-            showToast("Invalid number")
+            showToast(getString(R.string.toast_invalid_number))
             return false
         }
 
         if (expenseValue <= 0) {
-            showToast("Expense value must be greater than zero")
+            showToast(getString(R.string.toat_spending_value_must_be_greater_than_zero))
             return false
         }
 
