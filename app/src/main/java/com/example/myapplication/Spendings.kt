@@ -14,6 +14,7 @@ import com.example.myapplication.viewmodels.DetailViewModel
 import com.example.myapplication.viewmodels.SpendingsViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class Spendings: Fragment() {
     private lateinit var spendingsViewModel: SpendingsViewModel
@@ -32,6 +33,7 @@ class Spendings: Fragment() {
         val view = inflater.inflate(R.layout.fragment_spendings, container, false)
 
         dateTextView = view.findViewById(R.id.dateTextView)
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
         // Retrieve selected date from arguments
         val selectedDate = arguments?.getString(ARG_SELECTED_DATE)
@@ -43,15 +45,17 @@ class Spendings: Fragment() {
         val detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
         val addNewSpendingBtn: ImageButton = view.findViewById(R.id.addNewSpendingBtn)
         addNewSpendingBtn.setOnClickListener() {_ ->
-            val created: Date = SimpleDateFormat("yyyy-MM-dd").parse(selectedDate)
-            val newSpending = Expense(created = created)
-            detailViewModel.setSelectedSpending(newSpending)
+            val created = dateFormat.parse(selectedDate)
+            if (created != null) {
+                val newSpending = Expense(created = created)
+                detailViewModel.setSelectedSpending(newSpending)
+            }
         }
 
         // Register adapter
         val spendingsList: ListView = view.findViewById(R.id.spendings_list)
         if (selectedDate != null) {
-            val date =  SimpleDateFormat("yyyy-MM-dd").parse(selectedDate)
+            val date = dateFormat.parse(selectedDate)
             if (date != null) {
                 val spendings = spendingsViewModel.getExpenses(date)
                 spendingsList.isClickable = true
@@ -59,7 +63,7 @@ class Spendings: Fragment() {
             }
         }
 
-        val date =  SimpleDateFormat("yyyy-MM-dd").parse(selectedDate)
+        val date = dateFormat.parse(selectedDate)
         val spendings = spendingsViewModel.getExpenses(date)
         spendingsList.isClickable = true
         spendingsList.setOnItemClickListener { _, _, position, _ ->
@@ -84,7 +88,7 @@ class Spendings: Fragment() {
         fun newInstance(selectedDate: Date) =
             Spendings().apply {
                 arguments = Bundle().apply {
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                     val formattedDate = dateFormat.format(selectedDate)
                     putString(ARG_SELECTED_DATE, formattedDate)
                 }
