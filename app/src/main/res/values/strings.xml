@@ -33,4 +33,11 @@
     <string name="count">Count</string>
     <string name="no_results">No results</string>
     <string name="choose_filter_options_and_press_filter_button">Choose filter options and press Filter button</string>
+    <string name="category_food">Food</string>
+    <string name="category_fun">Fun</string>
+    <string name="category_shopping">Shopping</string>
+    <string name="category_health">Health</string>
+    <string name="category_transport">Transport</string>
+    <string name="category_housing">Housing</string>
+    <string name="category_other">Other</string>
 </resources>

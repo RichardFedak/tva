@@ -42,7 +42,7 @@ class ExpensesListViewAdapter(private val context: Context, private val expenses
         }
         viewHolder.valueTextView.text = valueText
 
-        viewHolder.categoryTextView.text = expense.category.name
+        viewHolder.categoryTextView.text = expense.category.getName(context)
 
         val truncatedNote = if (expense.note.length > 20) {
             expense.note.substring(0, 20) + "..."

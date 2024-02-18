@@ -6,8 +6,11 @@ import android.widget.Button
 import android.widget.ListView
 import com.example.myapplication.R
 
-class CategorySelectionDialog(context: Context, private val categories: Array<String>, private val selectedCategories: List<String>) : Dialog(context) {
-
+class CategorySelectionDialog(
+        context: Context,
+        private val categories: Array<String>,
+        private val selectedCategories: List<String>
+    ) : Dialog(context) {
     private lateinit var categoryListView: ListView
     private lateinit var confirmButton: Button
     private lateinit var selectedCategoriesSet: MutableSet<String>
