@@ -155,6 +155,7 @@ class Stats : Fragment() {
 
         tableLayout?.addView(row)
     }
+
     private fun addExpenseRow(category: String, expense: String, count: Int, isTotal: Boolean = false) {
         val tableLayout = view?.findViewById<TableLayout>(R.id.stats_table)
 
@@ -167,23 +168,18 @@ class Stats : Fragment() {
         tableLayout?.addView(row)
     }
 
-
     private fun createViewForResult(value: String, isTotal: Boolean = false) : View{
         val params = LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
         val view = TextView(context)
         view.layoutParams = params
         view.text = value
         view.gravity = Gravity.CENTER
-        view.setPadding(15.dpToPx(), 0, 0, 0)
+        view.setPadding(15, 0, 0, 0)
         view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
         if (isTotal) {
             view.setTypeface(null, Typeface.BOLD)
         }
         return view
-    }
-
-    private fun Int.dpToPx(): Int {
-        return (this * Resources.getSystem().displayMetrics.density).toInt()
     }
 
     private fun removeResultRows(view: View){
