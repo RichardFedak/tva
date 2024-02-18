@@ -40,4 +40,7 @@
     <string name="category_transport">Transport</string>
     <string name="category_housing">Housing</string>
     <string name="category_other">Other</string>
+    <string name="delete_expense_confirmation_question">Are you sure you want to delete this expense?</string>
+    <string name="delete_expense_confirmation_positive">Delete</string>
+    <string name="delete_expense_confirmation_negative">No</string>
 </resources>

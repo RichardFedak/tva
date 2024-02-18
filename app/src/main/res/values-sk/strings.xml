@@ -41,4 +41,7 @@
     <string name="category_transport">Doprava</string>
     <string name="category_housing">Bývanie</string>
     <string name="category_other">Iné</string>
+    <string name="delete_expense_confirmation_question">Naozaj chcete vymazať tento výdavok?</string>
+    <string name="delete_expense_confirmation_positive">Vymazať</string>
+    <string name="delete_expense_confirmation_negative">Nie</string>
 </resources>
