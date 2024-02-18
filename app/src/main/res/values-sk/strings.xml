@@ -4,9 +4,7 @@
     <string name="app_name_short">TVA</string>
     <string name="bottom_nav_calendar">Kalendár</string>
     <string name="bottom_nav_stats">Štatistiky</string>
-    <string name="hello_2">Ahoj 2</string>
     <string name="submit">Odoslať</string>
-    <string name="hello_test_label">Ahoj Test!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="stats_filter_from">Od</string>
     <string name="stats_filter_to">Do</string>
@@ -30,4 +28,5 @@
     <string name="toast_invalid_number">Neplatné číslo</string>
     <string name="toast_expense_value_must_be_greater_than_zero">Výdavok musí byť kladné číslo</string>
     <string name="reset_button">Reset</string>
+    <string name="cancel">Zrušiť</string>
 </resources>

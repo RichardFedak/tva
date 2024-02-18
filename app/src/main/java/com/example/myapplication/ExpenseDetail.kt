@@ -69,7 +69,7 @@ class ExpenseDetail : Fragment() {
 
         saveButton.setOnClickListener {
             val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-            val date = dateFormat.parse(dateTextView.text.toString())
+            val date = dateFormat.parse(dateTextView.text.toString())!!
             val expenseValueString = expenseValueEditText.text.toString()
             val note = noteEditText.text.toString()
             val category = Category.valueOf(categoryTextView.text.toString())
@@ -192,7 +192,7 @@ class ExpenseDetail : Fragment() {
         categoryListView.adapter = adapter
 
         val dialog = builder.setView(view)
-            .setNegativeButton("Cancel") { dialog, _ ->
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }.create()
 

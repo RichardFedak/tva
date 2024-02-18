@@ -3,9 +3,7 @@
     <string name="app_name_short">EXT</string>
     <string name="bottom_nav_calendar">Calendar</string>
     <string name="bottom_nav_stats">Stats</string>
-    <string name="hello_2">Hello Test</string>
     <string name="submit">Submit</string>
-    <string name="hello_test_label">Hello Test!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="stats_filter_from">From</string>
     <string name="stats_filter_to">To</string>
@@ -29,4 +27,5 @@
     <string name="toast_invalid_number">Invalid number</string>
     <string name="toast_expense_value_must_be_greater_than_zero">Expense value must be greater than zero</string>
     <string name="reset_button">Reset</string>
+    <string name="cancel">Cancel</string>
 </resources>
