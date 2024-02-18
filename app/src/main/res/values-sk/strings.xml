@@ -29,4 +29,9 @@
     <string name="toast_expense_value_must_be_greater_than_zero">Výdavok musí byť kladné číslo</string>
     <string name="reset_button">Reset</string>
     <string name="cancel">Zrušiť</string>
+    <string name="stats_total">"Spolu: "</string>
+    <string name="expenses">Výdavky</string>
+    <string name="count">Počet</string>
+    <string name="no_results">Žiadne výsledky</string>
+    <string name="choose_filter_options_and_press_filter_button">Vyberte možnosti filtra a kliknite na tlačidlo Filtrovať</string>
 </resources>

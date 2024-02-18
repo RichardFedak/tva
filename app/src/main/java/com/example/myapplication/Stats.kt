@@ -2,13 +2,18 @@ package com.example.myapplication
 
 import CategorySelectionDialog
 import android.app.DatePickerDialog
+import android.content.res.Resources
+import android.graphics.Typeface
 import android.os.Bundle
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.ListView
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TableRow.LayoutParams
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -37,7 +42,6 @@ class Stats : Fragment() {
         val statsButtonReset = view.findViewById<Button>(R.id.statsResetButton)
         val selectCategoriesButton = view.findViewById<Button>(R.id.selectCategoriesButton)
         val selectedCategoriesChipGroup = view.findViewById<ChipGroup>(R.id.selectedCategoriesChipGroup)
-
         selectCategoriesButton.setOnClickListener {
             showCategorySelectionDialog(selectedCategoriesChipGroup)
         }
@@ -51,26 +55,28 @@ class Stats : Fragment() {
             showDatePicker(statsDateToFilter, isFromDate = false)
         }
 
-        val expensesListView = view.findViewById<ListView>(R.id.expensesListView)
-
-        val expensesAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1)
-
-        expensesListView.adapter = expensesAdapter
 
         statsButtonFilter.setOnClickListener{
             val expenses = statsViewModel.getExpenses()
-
-            expensesAdapter.clear()
-
-            for(expense in expenses){
-                val totalExpenseRounded = String.format("%.2f", expense.totalExpense)
-
-                expensesAdapter.add(expense.category.toString() + ": " + totalExpenseRounded)
+            removeResultRows(view)
+            var totalExpenses = 0.0
+            var totalExpensesCount = 0
+            if (expenses.isEmpty()){
+                addInfoRow(getString(R.string.no_results))
+            }
+            else{
+                for (ex in expenses) {
+                    addExpenseRow(ex.category.name, String.format("%.2f", ex.totalExpense), ex.expensesCount)
+                    totalExpenses += ex.totalExpense
+                    totalExpensesCount += ex.expensesCount
+                }
+                addExpenseRow(getString(R.string.stats_total), String.format("%.2f", totalExpenses), totalExpensesCount, isTotal = true)
             }
         }
 
         statsButtonReset.setOnClickListener{
             statsViewModel.resetFilter()
+            removeResultRows(view)
             statsDateFromFilter.text = getString(R.string.stats_filter_from)
             statsDateToFilter.text = getString(R.string.stats_filter_to)
             selectedCategoriesChipGroup.removeAllViews()
@@ -124,6 +130,7 @@ class Stats : Fragment() {
                 val chip = Chip(requireContext())
                 chip.text = category
                 chip.isCloseIconVisible = true
+                chip.gravity = Gravity.CENTER
                 chip.setOnCloseIconClickListener {
                     val updatedCategoryList = statsViewModel.getCategories()?.toMutableList()?.apply {
                         remove(Category.valueOf(chip.text.toString()))
@@ -137,5 +144,53 @@ class Stats : Fragment() {
             selectedCategoriesChipGroup.visibility = View.VISIBLE
         }
         dialog.show()
+    }
+
+    private fun addInfoRow(message: String){
+        val tableLayout = view?.findViewById<TableLayout>(R.id.stats_table)
+
+        val row = TableRow(context)
+
+        row.addView(createViewForResult(message))
+
+        tableLayout?.addView(row)
+    }
+    private fun addExpenseRow(category: String, expense: String, count: Int, isTotal: Boolean = false) {
+        val tableLayout = view?.findViewById<TableLayout>(R.id.stats_table)
+
+        val row = TableRow(context)
+
+        row.addView(createViewForResult(category, isTotal))
+        row.addView(createViewForResult(expense, isTotal))
+        row.addView(createViewForResult(count.toString(), isTotal))
+
+        tableLayout?.addView(row)
+    }
+
+
+    private fun createViewForResult(value: String, isTotal: Boolean = false) : View{
+        val params = LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
+        val view = TextView(context)
+        view.layoutParams = params
+        view.text = value
+        view.gravity = Gravity.CENTER
+        view.setPadding(15.dpToPx(), 0, 0, 0)
+        view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+        if (isTotal) {
+            view.setTypeface(null, Typeface.BOLD)
+        }
+        return view
+    }
+
+    private fun Int.dpToPx(): Int {
+        return (this * Resources.getSystem().displayMetrics.density).toInt()
+    }
+
+    private fun removeResultRows(view: View){
+        val tableLayout = view.findViewById<TableLayout>(R.id.stats_table)
+        val count = (tableLayout?.childCount ?: 0) - 1 // -1 for header row
+        for (i in 1..count){
+            tableLayout?.removeViewAt(1)
+        }
     }
 }

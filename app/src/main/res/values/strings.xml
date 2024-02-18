@@ -28,4 +28,9 @@
     <string name="toast_expense_value_must_be_greater_than_zero">Expense value must be greater than zero</string>
     <string name="reset_button">Reset</string>
     <string name="cancel">Cancel</string>
+    <string name="stats_total">"Total: "</string>
+    <string name="expenses">Expenses</string>
+    <string name="count">Count</string>
+    <string name="no_results">No results</string>
+    <string name="choose_filter_options_and_press_filter_button">Choose filter options and press Filter button</string>
 </resources>

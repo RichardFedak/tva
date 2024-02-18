@@ -23,15 +23,15 @@ interface ExpenseDao {
     @Query("SELECT * FROM expense_table WHERE created = :dateInMillis ORDER BY created DESC")
     fun getExpensesByDate(dateInMillis: Long): List<Expense>
 
-    @Query("SELECT category, SUM(value) AS totalExpense FROM expense_table GROUP BY category")
+    @Query("SELECT category, SUM(value) AS totalExpense, COUNT(*) AS expensesCount FROM expense_table GROUP BY category")
     fun getAllExpensesByCategory(): List<ExpenseByCategory>
-    @Query("SELECT category, SUM(value) AS totalExpense FROM expense_table WHERE created >= :fromInMillis GROUP BY category")
+    @Query("SELECT category, SUM(value) AS totalExpense, COUNT(*) AS expensesCount FROM expense_table WHERE created >= :fromInMillis GROUP BY category")
     fun getExpensesFromDateByCategory(fromInMillis: Long): List<ExpenseByCategory>
 
-    @Query("SELECT category, SUM(value) AS totalExpense FROM expense_table WHERE created <= :toInMillis GROUP BY category")
+    @Query("SELECT category, SUM(value) AS totalExpense, COUNT(*) AS expensesCount FROM expense_table WHERE created <= :toInMillis GROUP BY category")
     fun getExpensesToDateByCategory(toInMillis: Long): List<ExpenseByCategory>
 
-    @Query("SELECT category, SUM(value) AS totalExpense FROM expense_table WHERE created BETWEEN :fromInMillis AND :toInMillis GROUP BY category")
+    @Query("SELECT category, SUM(value) AS totalExpense, COUNT(*) AS expensesCount FROM expense_table WHERE created BETWEEN :fromInMillis AND :toInMillis GROUP BY category")
     fun getExpensesFromToDatesByCategory(fromInMillis: Long, toInMillis: Long): List<ExpenseByCategory>
 
     @Delete
