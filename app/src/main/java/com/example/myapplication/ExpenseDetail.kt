@@ -125,31 +125,29 @@ class ExpenseDetail : Fragment() {
         detailViewModel.setSelectedExpense(null)
     }
 
-    private fun initDeleteButton(view: View, shouldHideDeleteButton: Boolean) {
-        val deleteButton = view.findViewById<Button>(R.id.deleteButton)
+    private fun createBackAlertDialog(): AlertDialog {
+        val factory =  ConfirmationDialogFactory(
+            question = getString(R.string.discard_changes_dialog_msg),
+            positiveButtonText = getString(R.string.discard_changes_dialog_discard),
+            negativeButtonText = getString(R.string.discard_changes_dialog_no),
+            positiveAnswerHandler = { navigateBackToExpenses() }
+        )
 
-        if (shouldHideDeleteButton) {
-            deleteButton.isVisible = false
-        } else {
-            deleteButton.setOnClickListener {
+        return factory.createAlertDialog(requireContext())
+    }
+
+    private fun createDeleteAlertDialog(): AlertDialog {
+        val factory =  ConfirmationDialogFactory(
+            question = getString(R.string.delete_expense_confirmation_question),
+            positiveButtonText = getString(R.string.delete_expense_confirmation_positive),
+            negativeButtonText = getString(R.string.delete_expense_confirmation_negative),
+            positiveAnswerHandler = {
                 detailViewModel.deleteExpense()
                 navigateBackToExpenses()
             }
-        }
-    }
+        )
 
-    private fun createBackAlertDialog(): AlertDialog {
-        val builder = AlertDialog.Builder(requireContext())
-
-        builder.setMessage(getString(R.string.discard_changes_dialog_msg))
-            .setPositiveButton(getString(R.string.discard_changes_dialog_discard)) { _, _ ->
-                navigateBackToExpenses()
-            }
-            .setNegativeButton(getString(R.string.discard_changes_dialog_no)) { dialog, _ ->
-                dialog.cancel()
-            }
-
-        return builder.create()
+        return factory.createAlertDialog(requireContext())
     }
 
     private fun hasInputsChanged(): Boolean {
@@ -176,6 +174,20 @@ class ExpenseDetail : Fragment() {
                 backAlertDialog.show()
             } else {
                 navigateBackToExpenses()
+            }
+        }
+    }
+
+    private fun initDeleteButton(view: View, shouldHideDeleteButton: Boolean) {
+        val deleteButton = view.findViewById<Button>(R.id.deleteButton)
+
+        if (shouldHideDeleteButton) {
+            deleteButton.isVisible = false
+        } else {
+            val deleteAlertDialog = createDeleteAlertDialog()
+
+            deleteButton.setOnClickListener {
+                deleteAlertDialog.show()
             }
         }
     }
