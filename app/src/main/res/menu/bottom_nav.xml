@@ -13,8 +13,4 @@
         android:layout_height="wrap_content"
         android:icon="@drawable/baseline_query_stats_24"
         android:title="@string/bottom_nav_stats" />
-    <item
-        android:id="@+id/bottom_nav_invisible"
-        android:visible="false"
-        />
 </menu>
