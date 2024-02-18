@@ -34,4 +34,11 @@
     <string name="count">Počet</string>
     <string name="no_results">Žiadne výsledky</string>
     <string name="choose_filter_options_and_press_filter_button">Vyberte možnosti filtra a kliknite na tlačidlo Filtrovať</string>
+    <string name="category_food">Jedlo</string>
+    <string name="category_fun">Zábava</string>
+    <string name="category_shopping">Nákupy</string>
+    <string name="category_health">Zdravie</string>
+    <string name="category_transport">Doprava</string>
+    <string name="category_housing">Bývanie</string>
+    <string name="category_other">Iné</string>
 </resources>
