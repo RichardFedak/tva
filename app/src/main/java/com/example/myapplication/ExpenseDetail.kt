@@ -30,7 +30,8 @@ class ExpenseDetail : Fragment() {
     private lateinit var detailViewModel: DetailViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_expense_detail, container, false)
