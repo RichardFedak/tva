@@ -39,7 +39,7 @@ class ExpenseDetail : Fragment() {
 
         detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
 
-        initBackButton(view)
+        initBackButton(view, context)
 
         dateTextView = view.findViewById(R.id.dateTextView)
         expenseValueEditText = view.findViewById(R.id.expenseEditText)
@@ -150,7 +150,7 @@ class ExpenseDetail : Fragment() {
         return factory.createAlertDialog(requireContext())
     }
 
-    private fun hasInputsChanged(): Boolean {
+    private fun hasInputsChanged(context: Context): Boolean {
         val expense = detailViewModel.selectedExpense.value ?: return false
 
         if (expenseValueEditText.text.toString() != expense.value.toString()) {
@@ -161,16 +161,16 @@ class ExpenseDetail : Fragment() {
             return true
         }
 
-        return categoryTextView.text.toString() != expense.category.toString()
+        return categoryTextView.text.toString() != expense.category.getName(context)
     }
 
-    private fun initBackButton(view: View) {
+    private fun initBackButton(view: View, context: Context) {
         val backAlertDialog = createBackAlertDialog()
 
         val backButton = view.findViewById<ImageButton>(R.id.backButton)
 
         backButton.setOnClickListener {
-            if (hasInputsChanged()) {
+            if (hasInputsChanged(context)) {
                 backAlertDialog.show()
             } else {
                 navigateBackToExpenses()
