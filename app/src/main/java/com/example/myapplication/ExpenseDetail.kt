@@ -129,7 +129,7 @@ class ExpenseDetail : Fragment() {
         val factory =  ConfirmationDialogFactory(
             question = getString(R.string.discard_changes_dialog_msg),
             positiveButtonText = getString(R.string.discard_changes_dialog_discard),
-            negativeButtonText = getString(R.string.discard_changes_dialog_no),
+            negativeButtonText = getString(R.string.confirmation_negative),
             positiveAnswerHandler = { navigateBackToExpenses() }
         )
 
@@ -140,7 +140,7 @@ class ExpenseDetail : Fragment() {
         val factory =  ConfirmationDialogFactory(
             question = getString(R.string.delete_expense_confirmation_question),
             positiveButtonText = getString(R.string.delete_expense_confirmation_positive),
-            negativeButtonText = getString(R.string.delete_expense_confirmation_negative),
+            negativeButtonText = getString(R.string.confirmation_negative),
             positiveAnswerHandler = {
                 detailViewModel.deleteExpense()
                 navigateBackToExpenses()
