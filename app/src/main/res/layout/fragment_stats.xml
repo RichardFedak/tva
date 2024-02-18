@@ -66,15 +66,22 @@
         android:shadowRadius="32"
         android:shadowColor="#333" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/selectedCategoriesChipGroup"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"
-        android:gravity="center"
-        android:orientation="horizontal" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/selectedCategoriesChipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -111,10 +118,54 @@
             android:shadowRadius="32"
             android:shadowColor="#333" />
     </LinearLayout>
-
-    <ListView
-        android:id="@+id/expensesListView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"/>
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+        <TableLayout
+            android:id="@+id/stats_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+                <TextView
+                    android:id="@+id/stats_table_h_category"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:text="@string/category_label"
+                    android:gravity="center"
+                    android:padding="8dp" />
+                <TextView
+                    android:id="@+id/stats_table_h_expense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:text="@string/expenses"
+                    android:gravity="center"
+                    android:padding="8dp" />
+                <TextView
+                    android:id="@+id/stats_table_h_expenses_count"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:text="@string/count"
+                    android:gravity="center"
+                    android:padding="8dp" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/stats_info_message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/choose_filter_options_and_press_filter_button"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:gravity="center"/>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
 </LinearLayout>
