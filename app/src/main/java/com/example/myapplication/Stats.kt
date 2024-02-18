@@ -2,7 +2,7 @@ package com.example.myapplication
 
 import CategorySelectionDialog
 import android.app.DatePickerDialog
-import android.content.res.Resources
+import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.TypedValue
@@ -35,6 +35,7 @@ class Stats : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_stats, container, false)
+        val context = requireContext()
 
         val statsDateFromFilter = view.findViewById<TextView>(R.id.statsDateFromFilter)
         val statsDateToFilter = view.findViewById<TextView>(R.id.statsDateToFilter)
@@ -43,18 +44,16 @@ class Stats : Fragment() {
         val selectCategoriesButton = view.findViewById<Button>(R.id.selectCategoriesButton)
         val selectedCategoriesChipGroup = view.findViewById<ChipGroup>(R.id.selectedCategoriesChipGroup)
         selectCategoriesButton.setOnClickListener {
-            showCategorySelectionDialog(selectedCategoriesChipGroup)
+            showCategorySelectionDialog(selectedCategoriesChipGroup, context)
         }
 
-
         statsDateFromFilter.setOnClickListener {
-            showDatePicker(statsDateFromFilter, isFromDate = true)
+            showDatePicker(statsDateFromFilter, isFromDate = true, context)
         }
 
         statsDateToFilter.setOnClickListener {
-            showDatePicker(statsDateToFilter, isFromDate = false)
+            showDatePicker(statsDateToFilter, isFromDate = false, context)
         }
-
 
         statsButtonFilter.setOnClickListener{
             val expenses = statsViewModel.getExpenses()
@@ -66,7 +65,7 @@ class Stats : Fragment() {
             }
             else{
                 for (ex in expenses) {
-                    addExpenseRow(ex.category.name, String.format("%.2f", ex.totalExpense), ex.expensesCount)
+                    addExpenseRow(ex.category.getName(context), String.format("%.2f", ex.totalExpense), ex.expensesCount)
                     totalExpenses += ex.totalExpense
                     totalExpensesCount += ex.expensesCount
                 }
@@ -86,14 +85,14 @@ class Stats : Fragment() {
         return view
     }
 
-    private fun showDatePicker(textView: TextView, isFromDate: Boolean) {
+    private fun showDatePicker(textView: TextView, isFromDate: Boolean, context: Context) {
         val calendar = java.util.Calendar.getInstance()
         val year = calendar.get(java.util.Calendar.YEAR)
         val month = calendar.get(java.util.Calendar.MONTH)
         val dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(
-            requireContext(),
+            context,
             { _, selectedYear, selectedMonth, selectedDayOfMonth ->
                 val selectedDate = java.util.Calendar.getInstance().apply {
                     set(selectedYear, selectedMonth, selectedDayOfMonth)
@@ -115,25 +114,25 @@ class Stats : Fragment() {
         datePickerDialog.show()
     }
 
-    private fun showCategorySelectionDialog(selectedCategoriesChipGroup : ChipGroup) {
-        val categories = Category.values().map { it.name }.toTypedArray()
-        val selectedCategories = statsViewModel.getCategories()?.map { it.name } ?: emptyList()
-        val dialog = CategorySelectionDialog(requireContext(), categories, selectedCategories)
+    private fun showCategorySelectionDialog(selectedCategoriesChipGroup : ChipGroup, context: Context) {
+        val categories = Category.entries.map { it.getName(context) }.toTypedArray()
+        val selectedCategories = statsViewModel.getCategories()?.map { it.getName(context) } ?: emptyList()
+        val dialog = CategorySelectionDialog(context, categories, selectedCategories)
 
         dialog.setOnConfirmClickListener { selectedCategories ->
-            val selectedCategoriesList = selectedCategories.map { Category.valueOf(it) }
+            val selectedCategoriesList = selectedCategories.map { Category.getValue(it, context) }
             statsViewModel.setCategories(selectedCategoriesList)
 
             selectedCategoriesChipGroup.removeAllViews()
             // Add chips for selected categories
             for (category in selectedCategories) {
-                val chip = Chip(requireContext())
+                val chip = Chip(context)
                 chip.text = category
                 chip.isCloseIconVisible = true
                 chip.gravity = Gravity.CENTER
                 chip.setOnCloseIconClickListener {
                     val updatedCategoryList = statsViewModel.getCategories()?.toMutableList()?.apply {
-                        remove(Category.valueOf(chip.text.toString()))
+                        remove(Category.getValue(chip.text.toString(), context))
                     }
                     statsViewModel.setCategories(updatedCategoryList)
                     selectedCategoriesChipGroup.removeView(chip)

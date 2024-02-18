@@ -35,6 +35,7 @@ class ExpenseDetail : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_expense_detail, container, false)
+        val context = requireContext()
 
         detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
 
@@ -53,19 +54,19 @@ class ExpenseDetail : Fragment() {
             dateTextView.text = dateFormat.format(expense.created)
             expenseValueEditText.setText(expense.value.toString())
             noteEditText.setText(expense.note)
-            categoryTextView.text = expense.category.toString()
+            categoryTextView.text = expense.category.getName(context)
         }
 
         categoryTextView.setOnClickListener {
-            showCategoryDialog()
+            showCategoryDialog(context)
         }
 
-        initSaveButton(view)
+        initSaveButton(view, context)
 
         return view
     }
 
-    private fun initSaveButton(view: View) {
+    private fun initSaveButton(view: View, context: Context) {
         val saveButton = view.findViewById<Button>(R.id.saveButton)
 
         saveButton.setOnClickListener {
@@ -73,7 +74,7 @@ class ExpenseDetail : Fragment() {
             val date = dateFormat.parse(dateTextView.text.toString())!!
             val expenseValueString = expenseValueEditText.text.toString()
             val note = noteEditText.text.toString()
-            val category = Category.valueOf(categoryTextView.text.toString())
+            val category = Category.getValue(categoryTextView.text.toString(), context)
 
             if (!isExpenseValueValid(expenseValueString)) {
                 return@setOnClickListener
@@ -179,7 +180,7 @@ class ExpenseDetail : Fragment() {
         }
     }
 
-    private fun showCategoryDialog() {
+    private fun showCategoryDialog(context: Context) {
         val builder = AlertDialog.Builder(requireContext())
         val inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.category_dialog_layout, null)
@@ -188,7 +189,7 @@ class ExpenseDetail : Fragment() {
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_list_item_1,
-            Category.entries.toTypedArray()
+            Category.entries.map { it.getName(context) }.toTypedArray()
         )
         categoryListView.adapter = adapter
 
@@ -198,8 +199,8 @@ class ExpenseDetail : Fragment() {
             }.create()
 
         categoryListView.setOnItemClickListener { parent, _, position, _ ->
-            val selectedCategory = parent.getItemAtPosition(position) as Category
-            categoryTextView.text = selectedCategory.toString()
+            val selectedCategory = parent.getItemAtPosition(position) as String
+            categoryTextView.text = selectedCategory
             dialog.dismiss()
         }
 
