@@ -22,9 +22,9 @@ import com.example.myapplication.viewmodels.DetailViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class SpendingDetail : Fragment() {
+class ExpenseDetail : Fragment() {
     private lateinit var dateTextView: TextView
-    private lateinit var spendingValueEditText: EditText
+    private lateinit var expenseValueEditText: EditText
     private lateinit var noteEditText: EditText
     private lateinit var categoryTextView: TextView
     private lateinit var detailViewModel: DetailViewModel
@@ -33,26 +33,26 @@ class SpendingDetail : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_spending_detail, container, false)
+        val view = inflater.inflate(R.layout.fragment_expense_detail, container, false)
 
         detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
 
         initBackButton(view)
 
         dateTextView = view.findViewById(R.id.dateTextView)
-        spendingValueEditText = view.findViewById(R.id.expenseEditText)
+        expenseValueEditText = view.findViewById(R.id.expenseEditText)
         noteEditText = view.findViewById(R.id.noteEditText)
         categoryTextView = view.findViewById(R.id.categoryTextView)
 
-        val spending = detailViewModel.selectedSpending.value
-        if (spending != null) {
-            initDeleteButton(view, spending.id == 0)
+        val expense = detailViewModel.selectedExpense.value
+        if (expense != null) {
+            initDeleteButton(view, expense.id == 0)
 
             val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-            dateTextView.text = dateFormat.format(spending.created)
-            spendingValueEditText.setText(spending.value.toString())
-            noteEditText.setText(spending.note)
-            categoryTextView.text = spending.category.toString()
+            dateTextView.text = dateFormat.format(expense.created)
+            expenseValueEditText.setText(expense.value.toString())
+            noteEditText.setText(expense.note)
+            categoryTextView.text = expense.category.toString()
         }
 
         categoryTextView.setOnClickListener {
@@ -69,42 +69,42 @@ class SpendingDetail : Fragment() {
 
         saveButton.setOnClickListener {
             val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-            val date = dateFormat.parse(dateTextView.text.toString())
-            val spendingValueString = spendingValueEditText.text.toString()
+            val date = dateFormat.parse(dateTextView.text.toString())!!
+            val expenseValueString = expenseValueEditText.text.toString()
             val note = noteEditText.text.toString()
             val category = Category.valueOf(categoryTextView.text.toString())
 
-            if (!isSpendingValueValid(spendingValueString)) {
+            if (!isExpenseValueValid(expenseValueString)) {
                 return@setOnClickListener
             }
-            val expenseValue = spendingValueString.toDouble()
+            val expenseValue = expenseValueString.toDouble()
 
-            // It is OK to take id from selectedSpending because it cannot be changed by the user
-            val id = detailViewModel.selectedSpending.value!!.id
+            // It is OK to take id from selectedExpense because it cannot be changed by the user
+            val id = detailViewModel.selectedExpense.value!!.id
             val newExpense = Expense(id, expenseValue, note, date, category)
             detailViewModel.saveExpense(newExpense)
 
             showToast(getString(R.string.toast_expense_created))
 
-            navigateBackToSpendings()
+            navigateBackToExpenses()
         }
     }
 
-    private fun isSpendingValueValid(spendingValueString: String): Boolean {
-        if (spendingValueString.isBlank()) {
-            showToast(getString(R.string.toast_spending_value_can_not_be_empty))
+    private fun isExpenseValueValid(expenseValueString: String): Boolean {
+        if (expenseValueString.isBlank()) {
+            showToast(getString(R.string.toast_expense_value_can_not_be_empty))
             return false
         }
 
         val expenseValue = try {
-            spendingValueString.toDouble()
+            expenseValueString.toDouble()
         } catch (e: NumberFormatException) {
             showToast(getString(R.string.toast_invalid_number))
             return false
         }
 
         if (expenseValue <= 0) {
-            showToast(getString(R.string.toat_spending_value_must_be_greater_than_zero))
+            showToast(getString(R.string.toast_expense_value_must_be_greater_than_zero))
             return false
         }
 
@@ -119,8 +119,8 @@ class SpendingDetail : Fragment() {
         ).show()
     }
 
-    private fun navigateBackToSpendings() {
-        detailViewModel.setSelectedSpending(null)
+    private fun navigateBackToExpenses() {
+        detailViewModel.setSelectedExpense(null)
     }
 
     private fun initDeleteButton(view: View, shouldHideDeleteButton: Boolean) {
@@ -131,7 +131,7 @@ class SpendingDetail : Fragment() {
         } else {
             deleteButton.setOnClickListener {
                 detailViewModel.deleteExpense()
-                navigateBackToSpendings()
+                navigateBackToExpenses()
             }
         }
     }
@@ -141,7 +141,7 @@ class SpendingDetail : Fragment() {
 
         builder.setMessage(getString(R.string.discard_changes_dialog_msg))
             .setPositiveButton(getString(R.string.discard_changes_dialog_discard)) { _, _ ->
-                navigateBackToSpendings()
+                navigateBackToExpenses()
             }
             .setNegativeButton(getString(R.string.discard_changes_dialog_no)) { dialog, _ ->
                 dialog.cancel()
@@ -151,17 +151,17 @@ class SpendingDetail : Fragment() {
     }
 
     private fun hasInputsChanged(): Boolean {
-        val spending = detailViewModel.selectedSpending.value ?: return false
+        val expense = detailViewModel.selectedExpense.value ?: return false
 
-        if (spendingValueEditText.text.toString() != spending.value.toString()) {
+        if (expenseValueEditText.text.toString() != expense.value.toString()) {
             return true
         }
 
-        if (noteEditText.text.toString() != spending.note) {
+        if (noteEditText.text.toString() != expense.note) {
             return true
         }
 
-        return categoryTextView.text.toString() != spending.category.toString()
+        return categoryTextView.text.toString() != expense.category.toString()
     }
 
     private fun initBackButton(view: View) {
@@ -173,7 +173,7 @@ class SpendingDetail : Fragment() {
             if (hasInputsChanged()) {
                 backAlertDialog.show()
             } else {
-                navigateBackToSpendings()
+                navigateBackToExpenses()
             }
         }
     }
@@ -192,7 +192,7 @@ class SpendingDetail : Fragment() {
         categoryListView.adapter = adapter
 
         val dialog = builder.setView(view)
-            .setNegativeButton("Cancel") { dialog, _ ->
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }.create()
 

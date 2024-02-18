@@ -1,21 +1,19 @@
 <resources>
-    <string name="app_name">Spending tracker</string>
-    <string name="app_name_short">SPA</string>
+    <string name="app_name">Expense tracker</string>
+    <string name="app_name_short">EXT</string>
     <string name="bottom_nav_calendar">Calendar</string>
     <string name="bottom_nav_stats">Stats</string>
-    <string name="hello_2">Hello Test</string>
     <string name="submit">Submit</string>
-    <string name="hello_test_label">Hello Test!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="stats_filter_from">From</string>
     <string name="stats_filter_to">To</string>
     <string name="stats_filter_button">Filter</string>
-    <string name="button_for_adding_a_new_spending">Add new spending</string>
+    <string name="button_for_adding_a_new_expense">Add new expense</string>
     <string name="back_button">Back button</string>
     <string name="discard_changes_dialog_discard">Discard</string>
     <string name="discard_changes_dialog_no">No</string>
     <string name="discard_changes_dialog_msg">Discard changes?</string>
-    <string name="spending_label">Spending</string>
+    <string name="expense_label">Expense</string>
     <string name="note_label">Note</string>
     <string name="category_label">Category</string>
     <string name="select_category_label">Select category</string>
@@ -25,8 +23,9 @@
     <string name="select_categories_label">Select Categories</string>
     <string name="confirm_button">Confirm</string>
     <string name="toast_expense_created">Expense created</string>
-    <string name="toast_spending_value_can_not_be_empty">Expense value can not be empty</string>
+    <string name="toast_expense_value_can_not_be_empty">Expense value can not be empty</string>
     <string name="toast_invalid_number">Invalid number</string>
-    <string name="toat_spending_value_must_be_greater_than_zero">Expense value must be greater than zero</string>
+    <string name="toast_expense_value_must_be_greater_than_zero">Expense value must be greater than zero</string>
     <string name="reset_button">Reset</string>
+    <string name="cancel">Cancel</string>
 </resources>

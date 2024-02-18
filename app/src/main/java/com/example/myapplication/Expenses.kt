@@ -11,26 +11,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.Expense
 import com.example.myapplication.viewmodels.DetailViewModel
-import com.example.myapplication.viewmodels.SpendingsViewModel
+import com.example.myapplication.viewmodels.ExpensesViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class Spendings: Fragment() {
-    private lateinit var spendingsViewModel: SpendingsViewModel
+class Expenses: Fragment() {
+    private lateinit var expensesViewModel: ExpensesViewModel
     private lateinit var dateTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        spendingsViewModel = ViewModelProvider(this)[SpendingsViewModel::class.java]
+        expensesViewModel = ViewModelProvider(this)[ExpensesViewModel::class.java]
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_spendings, container, false)
+        val view = inflater.inflate(R.layout.fragment_expenses, container, false)
 
         dateTextView = view.findViewById(R.id.dateTextView)
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -40,33 +40,32 @@ class Spendings: Fragment() {
 
         // Register on click event
         val detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
-        val addNewSpendingBtn: ImageButton = view.findViewById(R.id.addNewSpendingBtn)
-        addNewSpendingBtn.setOnClickListener() {_ ->
+        val addNewExpenseBtn: ImageButton = view.findViewById(R.id.addNewExpenseBtn)
+        addNewExpenseBtn.setOnClickListener() { _ ->
             val created = dateFormat.parse(selectedDate)
             if (created != null) {
-                val newSpending = Expense(created = created)
-                detailViewModel.setSelectedSpending(newSpending)
+                val newExpense = Expense(created = created)
+                detailViewModel.setSelectedExpense(newExpense)
             }
         }
 
         // Register adapter
-        val spendingsList: ListView = view.findViewById(R.id.spendings_list)
+        val expenses: ListView = view.findViewById(R.id.expenses_list)
         if (selectedDate != null) {
             val date = dateFormat.parse(selectedDate)
             dateTextView.text = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date)
             if (date != null) {
-                val spendings = spendingsViewModel.getExpenses(date)
-                spendingsList.isClickable = true
-                spendingsList.adapter = SpendingsListViewAdapter(requireContext(), ArrayList(spendings))
+                val expense = expensesViewModel.getExpenses(date)
+                expenses.isClickable = true
+                expenses.adapter = ExpensesListViewAdapter(requireContext(), ArrayList(expense))
             }
         }
 
         val date = dateFormat.parse(selectedDate)
-        val spendings = spendingsViewModel.getExpenses(date)
-        spendingsList.isClickable = true
-        spendingsList.setOnItemClickListener { _, _, position, _ ->
-            val spending = spendings[position]
-            detailViewModel.setSelectedSpending(spending)
+        val expense = expensesViewModel.getExpenses(date)
+        expenses.isClickable = true
+        expenses.setOnItemClickListener { _, _, position, _ ->
+            detailViewModel.setSelectedExpense(expense[position])
         }
 
         return view
@@ -77,14 +76,14 @@ class Spendings: Fragment() {
 
         @JvmStatic
         fun newInstance(selectedDate: String) =
-            Spendings().apply {
+            Expenses().apply {
                 arguments = Bundle().apply {
                     putString(ARG_SELECTED_DATE, selectedDate)
                 }
             }
 
         fun newInstance(selectedDate: Date) =
-            Spendings().apply {
+            Expenses().apply {
                 arguments = Bundle().apply {
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                     val formattedDate = dateFormat.format(selectedDate)

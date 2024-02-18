@@ -8,8 +8,8 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.myapplication.data.Expense
 
-class SpendingsListViewAdapter(private val context: Context, private val spendings: ArrayList<Expense>)
-    : ArrayAdapter<Expense>(context, R.layout.list_item, spendings) {
+class ExpensesListViewAdapter(private val context: Context, private val expenses: ArrayList<Expense>)
+    : ArrayAdapter<Expense>(context, R.layout.list_item, expenses) {
 
     private class ViewHolder {
         val valueTextView: TextView
@@ -34,20 +34,20 @@ class SpendingsListViewAdapter(private val context: Context, private val spendin
             viewHolder = convertView.tag as ViewHolder
         }
 
-        val spending = spendings[position]
-        val valueText = if (spending.value > 999) {
+        val expense = expenses[position]
+        val valueText = if (expense.value > 999) {
             "999+"
         } else {
-            spending.value.toString()
+            expense.value.toString()
         }
         viewHolder.valueTextView.text = valueText
 
-        viewHolder.categoryTextView.text = spending.category.name
+        viewHolder.categoryTextView.text = expense.category.name
 
-        val truncatedNote = if (spending.note.length > 20) {
-            spending.note.substring(0, 20) + "..."
+        val truncatedNote = if (expense.note.length > 20) {
+            expense.note.substring(0, 20) + "..."
         } else {
-            spending.note
+            expense.note
         }
         viewHolder.noteTextView.text = truncatedNote
 

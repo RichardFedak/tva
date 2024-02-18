@@ -4,7 +4,7 @@ import android.app.Application
 import com.example.myapplication.data.Expense
 import java.util.Date
 
-class SpendingsViewModel(application: Application): TvaBaseViewModel(application) {
+class ExpensesViewModel(application: Application): TvaBaseViewModel(application) {
     fun getExpenses(date: Date): List<Expense> {
         return repository.getExpenses(date)
     }

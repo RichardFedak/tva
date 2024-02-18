@@ -7,22 +7,22 @@ import com.example.myapplication.data.Expense
 import java.util.Date
 
 class DetailViewModel(application: Application): TvaBaseViewModel(application) {
-    /* lastDate property is used to go back to Spendings after saving spending detail
-       (we need to remember last date, we cannot take it from _selectedSpending because after saving
+    /* lastDate property is used to go back to Expenses after saving expense detail
+       (we need to remember last date, we cannot take it from _selectedExpense because after saving
        it will be set to null) */
     var lastDate: Date = Date()
 
-    /* Setting _selectedSpending (to not null instance) will navigate user to SpendingDetail,
-     * setting _selectedSpending to null will close SpendingDetail (will return user
-     * back to Spendings) */
-    private val _selectedSpending = MutableLiveData<Expense?>()
+    /* Setting _selectedExpense (to not null instance) will navigate user to ExpenseDetail,
+     * setting _selectedExpense to null will close ExpenseDetail (will return user
+     * back to Expenses) */
+    private val _selectedExpense = MutableLiveData<Expense?>()
 
-    val selectedSpending: LiveData<Expense?> get() = _selectedSpending
+    val selectedExpense: LiveData<Expense?> get() = _selectedExpense
 
-    fun setSelectedSpending(spending: Expense?) {
-        _selectedSpending.value = spending
-        if (spending != null) {
-            lastDate = spending.created
+    fun setSelectedExpense(expense: Expense?) {
+        _selectedExpense.value = expense
+        if (expense != null) {
+            lastDate = expense.created
         }
     }
 
@@ -35,9 +35,9 @@ class DetailViewModel(application: Application): TvaBaseViewModel(application) {
     }
 
     fun deleteExpense() {
-        val spending = selectedSpending.value
-        if (spending != null && spending.id != 0) {
-            repository.deleteExpense(spending)
+        val expense = selectedExpense.value
+        if (expense != null && expense.id != 0) {
+            repository.deleteExpense(expense)
         }
     }
 }
