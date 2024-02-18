@@ -12,7 +12,6 @@
     <string name="button_for_adding_a_new_expense">Pridaj nový výdavok</string>
     <string name="back_button">Späť</string>
     <string name="discard_changes_dialog_discard">Zahodiť</string>
-    <string name="discard_changes_dialog_no">Nie</string>
     <string name="discard_changes_dialog_msg">Zahodiť zmeny?</string>
     <string name="expense_label">Výdavok</string>
     <string name="note_label">Poznámka</string>
@@ -41,4 +40,7 @@
     <string name="category_transport">Doprava</string>
     <string name="category_housing">Bývanie</string>
     <string name="category_other">Iné</string>
+    <string name="delete_expense_confirmation_question">Naozaj chcete vymazať tento výdavok?</string>
+    <string name="delete_expense_confirmation_positive">Vymazať</string>
+    <string name="confirmation_negative">Nie</string>
 </resources>
