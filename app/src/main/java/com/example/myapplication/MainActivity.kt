@@ -1,12 +1,8 @@
 package com.example.myapplication
 
-import android.content.Context
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -40,17 +36,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         sharedViewModel.selectedDate.observe(this, Observer { date ->
-            val spendingsFragment = Spendings.newInstance(date.toString())
-            replaceFragment(spendingsFragment)
+            val expensesFragment = Expenses.newInstance(date.toString())
+            replaceFragment(expensesFragment)
             uncheckAllNavItems(bottomNav)
         })
 
-        detailViewModel.selectedSpending.observe(this, Observer { spending ->
-            if (spending != null) {
-                replaceFragment(SpendingDetail())
+        detailViewModel.selectedExpense.observe(this, Observer { expense ->
+            if (expense != null) {
+                replaceFragment(ExpenseDetail())
             } else {
-                val spendingsFragment = Spendings.newInstance(detailViewModel.lastDate)
-                replaceFragment(spendingsFragment)
+                val expensesFragment = Expenses.newInstance(detailViewModel.lastDate)
+                replaceFragment(expensesFragment)
             }
         })
     }

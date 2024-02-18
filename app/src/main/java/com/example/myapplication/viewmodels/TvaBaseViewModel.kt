@@ -12,7 +12,7 @@ abstract class TvaBaseViewModel(application: Application): AndroidViewModel(appl
     init {
         val db = Room.databaseBuilder(
             application,
-            ExpenseDatabase::class.java, "spendings_db"
+            ExpenseDatabase::class.java, "expenses_db"
         )
         .allowMainThreadQueries() // TODO delete .allowMainThreadQueries()
         .build()

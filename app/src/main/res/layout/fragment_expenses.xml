@@ -35,16 +35,16 @@
                 android:textSize="30sp"/>
 
             <ImageButton
-                android:id="@+id/addNewSpendingBtn"
+                android:id="@+id/addNewExpenseBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@android:drawable/ic_input_add"
-                android:contentDescription="@string/button_for_adding_a_new_spending" />
+                android:contentDescription="@string/button_for_adding_a_new_expense" />
         </LinearLayout>
 
         <ListView
-            android:id="@+id/spendings_list"
+            android:id="@+id/expenses_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:listitem="@layout/list_item"
