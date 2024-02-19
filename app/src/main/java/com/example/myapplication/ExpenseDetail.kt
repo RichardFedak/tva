@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.app.AlertDialog
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,7 @@ class ExpenseDetail : Fragment() {
     private lateinit var noteEditText: EditText
     private lateinit var categoryTextView: TextView
     private lateinit var detailViewModel: DetailViewModel
+    private lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +41,11 @@ class ExpenseDetail : Fragment() {
 
         detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
 
+        mediaPlayer = MediaPlayer.create(context, R.raw.kaching)
+        mediaPlayer.setOnCompletionListener { mediaPlayer ->
+            mediaPlayer.stop()
+            mediaPlayer?.release()
+        }
         initBackButton(view, context)
 
         dateTextView = view.findViewById(R.id.dateTextView)
@@ -87,6 +94,7 @@ class ExpenseDetail : Fragment() {
             detailViewModel.saveExpense(newExpense)
 
             showToast(getString(R.string.toast_expense_created))
+            mediaPlayer.start()
 
             navigateBackToExpenses()
         }
