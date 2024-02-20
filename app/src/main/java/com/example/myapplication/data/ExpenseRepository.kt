@@ -12,7 +12,7 @@ class ExpenseRepository(private val expenseDao: ExpenseDao) {
 
     }
 
-    fun getExpense(id: Int): List<Expense> {
+    fun getExpense(id: Int): Expense {
         return expenseDao.getExpense(id)
     }
 

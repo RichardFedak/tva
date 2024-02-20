@@ -97,7 +97,8 @@ class Stats : Fragment() {
                     set(selectedYear, selectedMonth, selectedDayOfMonth)
                 }.time
 
-                textView.text = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear" //TODO
+                val dateString = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
+                textView.text = dateString
 
                 if (isFromDate) {
                     statsViewModel.setDateFrom(selectedDate)

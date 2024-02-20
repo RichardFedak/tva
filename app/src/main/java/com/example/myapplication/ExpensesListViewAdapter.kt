@@ -51,6 +51,6 @@ class ExpensesListViewAdapter(private val context: Context, private val expenses
         }
         viewHolder.noteTextView.text = truncatedNote
 
-        return convertView!!
+        return newView!!
     }
 }

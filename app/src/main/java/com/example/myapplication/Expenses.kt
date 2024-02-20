@@ -18,7 +18,6 @@ import java.util.Locale
 
 class Expenses: Fragment() {
     private lateinit var expensesViewModel: ExpensesViewModel
-    private lateinit var dateTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,44 +30,59 @@ class Expenses: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_expenses, container, false)
+        val detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
 
-        dateTextView = view.findViewById(R.id.dateTextView)
+        val dateTextView = view.findViewById<TextView>(R.id.dateTextView)
+        val expensesListView: ListView = view.findViewById(R.id.expenses_list)
+
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
         // Retrieve selected date from arguments
-        val selectedDate = arguments?.getString(ARG_SELECTED_DATE)
+        val selectedDate = arguments?.getString(ARG_SELECTED_DATE) ?: return view
 
-        // Register on click event
-        val detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
+        initAddNewExpenseButton(view, dateFormat, selectedDate, detailViewModel)
+
+        val date = dateFormat.parse(selectedDate)
+        if (date != null) {
+            dateTextView.text = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date)
+
+            initExpensesListView(date, expensesListView, detailViewModel)
+        }
+
+        return view
+    }
+
+    private fun initExpensesListView(
+        date: Date,
+        expensesListView: ListView,
+        detailViewModel: DetailViewModel
+    ) {
+        val expenses = expensesViewModel.getExpenses(date)
+
+        expensesListView.isClickable = true
+        expensesListView.adapter = ExpensesListViewAdapter(requireContext(), ArrayList(expenses))
+        expensesListView.setOnItemClickListener { _, _, position, _ ->
+            val expenseId = expenses[position].id
+            val expense = detailViewModel.getExpense(expenseId)
+            detailViewModel.setSelectedExpense(expense)
+        }
+    }
+
+    private fun initAddNewExpenseButton(
+        view: View,
+        dateFormat: SimpleDateFormat,
+        selectedDate: String,
+        detailViewModel: DetailViewModel
+    ) {
         val addNewExpenseBtn: ImageButton = view.findViewById(R.id.addNewExpenseBtn)
+
         addNewExpenseBtn.setOnClickListener { _ ->
-            val created = dateFormat.parse(selectedDate) //TODO check null
+            val created = dateFormat.parse(selectedDate)
             if (created != null) {
                 val newExpense = Expense(created = created)
                 detailViewModel.setSelectedExpense(newExpense)
             }
         }
-
-        // Register adapter
-        val expenses: ListView = view.findViewById(R.id.expenses_list)
-        if (selectedDate != null) {
-            val date = dateFormat.parse(selectedDate)
-            dateTextView.text = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date) //TODO check null
-            if (date != null) {
-                val expense = expensesViewModel.getExpenses(date)
-                expenses.isClickable = true
-                expenses.adapter = ExpensesListViewAdapter(requireContext(), ArrayList(expense))
-            }
-        }
-
-        val date = dateFormat.parse(selectedDate)//TODO check null
-        val expense = expensesViewModel.getExpenses(date)//TODO check null
-        expenses.isClickable = true
-        expenses.setOnItemClickListener { _, _, position, _ ->
-            detailViewModel.setSelectedExpense(expense[position])
-        }
-
-        return view
     }
 
     companion object {

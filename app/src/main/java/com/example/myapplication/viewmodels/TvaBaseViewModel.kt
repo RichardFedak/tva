@@ -14,7 +14,7 @@ abstract class TvaBaseViewModel(application: Application): AndroidViewModel(appl
             application,
             ExpenseDatabase::class.java, "expenses_db"
         )
-        .allowMainThreadQueries() // TODO delete .allowMainThreadQueries()
+        .allowMainThreadQueries()
         .build()
 
         val expenseDao = db.expenseDao()
