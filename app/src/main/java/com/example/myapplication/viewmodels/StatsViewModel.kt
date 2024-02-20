@@ -2,7 +2,6 @@ package com.example.myapplication.viewmodels
 
 import android.app.Application
 import com.example.myapplication.data.Category
-import com.example.myapplication.data.Expense
 import com.example.myapplication.data.ExpenseByCategory
 import java.util.Date
 

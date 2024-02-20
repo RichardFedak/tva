@@ -9,7 +9,7 @@ class ExpensesViewModel(application: Application): TvaBaseViewModel(application)
         return repository.getExpenses(date)
     }
 
-    fun deleteExpense(expense: Expense) {
+    fun deleteExpense(expense: Expense) { //TODO
         return repository.deleteExpense(expense)
     }
 }

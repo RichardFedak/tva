@@ -41,8 +41,8 @@ class Expenses: Fragment() {
         // Register on click event
         val detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
         val addNewExpenseBtn: ImageButton = view.findViewById(R.id.addNewExpenseBtn)
-        addNewExpenseBtn.setOnClickListener() { _ ->
-            val created = dateFormat.parse(selectedDate)
+        addNewExpenseBtn.setOnClickListener { _ ->
+            val created = dateFormat.parse(selectedDate) //TODO check null
             if (created != null) {
                 val newExpense = Expense(created = created)
                 detailViewModel.setSelectedExpense(newExpense)
@@ -53,7 +53,7 @@ class Expenses: Fragment() {
         val expenses: ListView = view.findViewById(R.id.expenses_list)
         if (selectedDate != null) {
             val date = dateFormat.parse(selectedDate)
-            dateTextView.text = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date)
+            dateTextView.text = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date) //TODO check null
             if (date != null) {
                 val expense = expensesViewModel.getExpenses(date)
                 expenses.isClickable = true
@@ -61,8 +61,8 @@ class Expenses: Fragment() {
             }
         }
 
-        val date = dateFormat.parse(selectedDate)
-        val expense = expensesViewModel.getExpenses(date)
+        val date = dateFormat.parse(selectedDate)//TODO check null
+        val expense = expensesViewModel.getExpenses(date)//TODO check null
         expenses.isClickable = true
         expenses.setOnItemClickListener { _, _, position, _ ->
             detailViewModel.setSelectedExpense(expense[position])

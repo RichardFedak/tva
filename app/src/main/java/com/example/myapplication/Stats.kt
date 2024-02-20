@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import CategorySelectionDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.Typeface
@@ -98,7 +97,7 @@ class Stats : Fragment() {
                     set(selectedYear, selectedMonth, selectedDayOfMonth)
                 }.time
 
-                textView.text = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
+                textView.text = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear" //TODO
 
                 if (isFromDate) {
                     statsViewModel.setDateFrom(selectedDate)
@@ -116,8 +115,8 @@ class Stats : Fragment() {
 
     private fun showCategorySelectionDialog(selectedCategoriesChipGroup : ChipGroup, context: Context) {
         val categories = Category.entries.map { it.getName(context) }.toTypedArray()
-        val selectedCategories = statsViewModel.getCategories()?.map { it.getName(context) } ?: emptyList()
-        val dialog = CategorySelectionDialog(context, categories, selectedCategories)
+        val alreadySelectedCategories = statsViewModel.getCategories()?.map { it.getName(context) } ?: emptyList()
+        val dialog = CategorySelectionDialog(context, categories, alreadySelectedCategories)
 
         dialog.setOnConfirmClickListener { selectedCategories ->
             val selectedCategoriesList = selectedCategories.map { Category.getValue(it, context) }
@@ -168,7 +167,7 @@ class Stats : Fragment() {
     }
 
     private fun createViewForResult(value: String, isTotal: Boolean = false) : View{
-        val params = LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
+        val params = LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f)
         val view = TextView(context)
         view.layoutParams = params
         view.text = value

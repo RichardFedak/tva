@@ -11,12 +11,12 @@ import com.example.myapplication.data.Expense
 class ExpensesListViewAdapter(private val context: Context, private val expenses: ArrayList<Expense>)
     : ArrayAdapter<Expense>(context, R.layout.list_item, expenses) {
 
-    private class ViewHolder {
+    private class ViewHolder(view: View) {
         val valueTextView: TextView
         val categoryTextView: TextView
         val noteTextView: TextView
 
-        constructor(view: View) {
+        init {
             valueTextView = view.findViewById(R.id.valueTextView)
             categoryTextView = view.findViewById(R.id.categoryTextView)
             noteTextView = view.findViewById(R.id.noteTextView)
@@ -24,14 +24,14 @@ class ExpensesListViewAdapter(private val context: Context, private val expenses
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+        var newView = convertView
         val viewHolder: ViewHolder
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
-            viewHolder = ViewHolder(convertView)
-            convertView.tag = viewHolder
+        if (newView == null) {
+            newView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
+            viewHolder = ViewHolder(newView)
+            newView.tag = viewHolder
         } else {
-            viewHolder = convertView.tag as ViewHolder
+            viewHolder = newView.tag as ViewHolder
         }
 
         val expense = expenses[position]

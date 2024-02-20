@@ -35,13 +35,13 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        sharedViewModel.selectedDate.observe(this, Observer { date ->
+        sharedViewModel.selectedDate.observe(this, Observer { date -> //TODO
             val expensesFragment = Expenses.newInstance(date.toString())
             replaceFragment(expensesFragment)
             uncheckAllNavItems(bottomNav)
         })
 
-        detailViewModel.selectedExpense.observe(this, Observer { expense ->
+        detailViewModel.selectedExpense.observe(this, Observer { expense -> // TODO
             if (expense != null) {
                 replaceFragment(ExpenseDetail())
             } else {
