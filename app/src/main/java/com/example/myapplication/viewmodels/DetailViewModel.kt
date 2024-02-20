@@ -30,7 +30,7 @@ class DetailViewModel(application: Application): TvaBaseViewModel(application) {
         repository.saveExpense(expense)
     }
 
-    fun getExpense(id: Int): List<Expense> {
+    fun getExpense(id: Int): Expense {
         return repository.getExpense(id)
     }
 

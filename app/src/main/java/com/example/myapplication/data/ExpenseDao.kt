@@ -18,7 +18,7 @@ interface ExpenseDao {
     fun getExpenses(): List<Expense>
 
     @Query("SELECT * FROM expense_table WHERE id = :id LIMIT 1")
-    fun getExpense(id: Int): List<Expense>
+    fun getExpense(id: Int): Expense
 
     @Query("SELECT * FROM expense_table WHERE created = :dateInMillis ORDER BY created DESC")
     fun getExpensesByDate(dateInMillis: Long): List<Expense>

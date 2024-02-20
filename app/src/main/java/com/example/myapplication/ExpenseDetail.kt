@@ -93,7 +93,13 @@ class ExpenseDetail : Fragment() {
             val newExpense = Expense(id, expenseValue, note, date, category)
             detailViewModel.saveExpense(newExpense)
 
-            showToast(getString(R.string.toast_expense_created))
+
+            val msg = if (newExpense.id == 0) {
+                getString(R.string.toast_expense_created)
+            } else {
+                getString(R.string.toast_expense_updated)
+            }
+            showToast(msg)
             mediaPlayer.start()
 
             navigateBackToExpenses()

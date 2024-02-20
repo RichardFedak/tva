@@ -64,7 +64,7 @@
         android:paddingBottom="12dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="#777788"
+        android:backgroundTint="#777777"
         android:shadowDx="1"
         android:shadowDy="1"
         android:shadowRadius="32"
@@ -106,7 +106,8 @@
             android:shadowDy="1"
             android:shadowRadius="32"
             android:shadowColor="#333"
-            android:textColor="@color/material_dynamic_neutral_variant95" />
+            android:textColor="@color/material_dynamic_neutral_variant95"
+            style="@android:style/Theme.NoDisplay" />
 
         <Button
             android:id="@+id/statsResetButton"
@@ -118,12 +119,13 @@
             android:paddingBottom="4dp"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="4dp"
-            android:backgroundTint="#889"
+            android:backgroundTint="#A31"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="32"
             android:shadowColor="#333"
-            android:textColor="@color/material_dynamic_neutral_variant95" />
+            android:textColor="@color/material_dynamic_neutral_variant95"
+            style="@android:style/Theme.NoDisplay" />
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
