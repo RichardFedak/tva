@@ -55,20 +55,21 @@ class Stats : Fragment() {
         }
 
         statsButtonFilter.setOnClickListener{
-            val expenses = statsViewModel.getExpenses()
-            removeResultRows(view)
-            var totalExpenses = 0.0
-            var totalExpensesCount = 0
-            if (expenses.isEmpty()){
-                addInfoRow(getString(R.string.no_results))
-            }
-            else{
-                for (ex in expenses) {
-                    addExpenseRow(ex.category.getName(context), String.format("%.2f", ex.totalExpense), ex.expensesCount)
-                    totalExpenses += ex.totalExpense
-                    totalExpensesCount += ex.expensesCount
+            statsViewModel.getExpenses().observe(viewLifecycleOwner) { expenses ->
+                removeResultRows(view)
+                var totalExpenses = 0.0
+                var totalExpensesCount = 0
+                if (expenses.isEmpty()){
+                    addInfoRow(getString(R.string.no_results))
                 }
-                addExpenseRow(getString(R.string.stats_total), String.format("%.2f", totalExpenses), totalExpensesCount, isTotal = true)
+                else{
+                    for (ex in expenses) {
+                        addExpenseRow(ex.category.getName(context), String.format("%.2f", ex.totalExpense), ex.expensesCount)
+                        totalExpenses += ex.totalExpense
+                        totalExpensesCount += ex.expensesCount
+                    }
+                    addExpenseRow(getString(R.string.stats_total), String.format("%.2f", totalExpenses), totalExpensesCount, isTotal = true)
+                }
             }
         }
 

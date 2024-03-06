@@ -1,6 +1,7 @@
 package com.example.myapplication.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import com.example.myapplication.data.Category
 import com.example.myapplication.data.ExpenseByCategory
 import java.util.Date
@@ -28,19 +29,10 @@ class StatsViewModel(application: Application): TvaBaseViewModel(application) {
         return this.categories
     }
 
-    fun getExpenses(): List<ExpenseByCategory> {
-        val expenses = repository.getExpenses(dateFrom, dateTo)
-
-        if (categories.isNullOrEmpty()) {
-            return expenses
-        }
-
-        return expenses.filter { expense ->
-            categories!!.any { category ->
-                expense.category == category
-            }
-        }
+    fun getExpenses(): LiveData<List<ExpenseByCategory>> {
+        return repository.getExpenses(dateFrom, dateTo, categories)
     }
+
     fun resetFilter() {
         dateFrom = null
         dateTo = null

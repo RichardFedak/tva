@@ -57,14 +57,15 @@ class Expenses: Fragment() {
         expensesListView: ListView,
         detailViewModel: DetailViewModel
     ) {
-        val expenses = expensesViewModel.getExpenses(date)
-
-        expensesListView.isClickable = true
-        expensesListView.adapter = ExpensesListViewAdapter(requireContext(), ArrayList(expenses))
-        expensesListView.setOnItemClickListener { _, _, position, _ ->
-            val expenseId = expenses[position].id
-            val expense = detailViewModel.getExpense(expenseId)
-            detailViewModel.setSelectedExpense(expense)
+        expensesViewModel.getExpenses(date).observe(viewLifecycleOwner) { expenses ->
+            expensesListView.isClickable = true
+            expensesListView.adapter = ExpensesListViewAdapter(requireContext(), ArrayList(expenses))
+            expensesListView.setOnItemClickListener { _, _, position, _ ->
+                val expenseId = expenses[position].id
+                detailViewModel.getExpense(expenseId).observe(viewLifecycleOwner) {
+                    detailViewModel.setSelectedExpense(it)
+                }
+            }
         }
     }
 
