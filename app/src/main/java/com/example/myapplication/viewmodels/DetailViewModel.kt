@@ -3,7 +3,10 @@ package com.example.myapplication.viewmodels
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.Expense
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.Date
 
 class DetailViewModel(application: Application): TvaBaseViewModel(application) {
@@ -27,17 +30,21 @@ class DetailViewModel(application: Application): TvaBaseViewModel(application) {
     }
 
     fun saveExpense(expense: Expense) {
-        repository.saveExpense(expense)
+        viewModelScope.launch (Dispatchers.IO) {
+            repository.saveExpense(expense)
+        }
     }
 
-    fun getExpense(id: Int): Expense {
+    fun getExpense(id: Int): LiveData<Expense> {
         return repository.getExpense(id)
     }
 
     fun deleteExpense() {
         val expense = selectedExpense.value
         if (expense != null && expense.id != 0) {
-            repository.deleteExpense(expense)
+            viewModelScope.launch (Dispatchers.IO) {
+                repository.deleteExpense(expense)
+            }
         }
     }
 }
