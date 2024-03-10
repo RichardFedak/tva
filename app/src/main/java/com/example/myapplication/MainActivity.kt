@@ -12,7 +12,6 @@ import com.example.myapplication.viewmodels.SharedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding : ActivityMainBinding
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var detailViewModel: DetailViewModel
@@ -53,8 +52,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun uncheckAllNavItems(bottomNav: BottomNavigationView) {
         bottomNav.menu.setGroupCheckable(0, true, false)
         bottomNav.menu.forEach { it.isChecked = false }
@@ -70,6 +67,4 @@ class MainActivity : AppCompatActivity() {
         sharedViewModel.setActiveFragment(fragment)
         fragmentTransaction.commit()
     }
-
-
 }

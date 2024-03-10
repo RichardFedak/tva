@@ -10,7 +10,6 @@ import com.example.myapplication.data.Expense
 
 class ExpensesListViewAdapter(private val context: Context, private val expenses: ArrayList<Expense>)
     : ArrayAdapter<Expense>(context, R.layout.list_item, expenses) {
-
     private class ViewHolder(view: View) {
         val valueTextView: TextView
         val categoryTextView: TextView
