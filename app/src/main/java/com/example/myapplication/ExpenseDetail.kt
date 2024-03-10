@@ -80,7 +80,7 @@ class ExpenseDetail : Fragment() {
 
         saveButton.setOnClickListener {
             val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-            val date = dateFormat.parse(dateTextView.text.toString())!!
+            val date = dateFormat.parse(dateTextView.text.toString())
             val expenseValueString = expenseValueEditText.text.toString()
             val note = noteEditText.text.toString()
             val category = Category.getValue(categoryTextView.text.toString(), context)
@@ -91,18 +91,19 @@ class ExpenseDetail : Fragment() {
             val expenseValue = expenseValueString.toDouble()
 
             // It is OK to take id from selectedExpense because it cannot be changed by the user
-            val id = detailViewModel.selectedExpense.value!!.id
-            val newExpense = Expense(id, expenseValue, note, date, category)
-            detailViewModel.saveExpense(newExpense)
+            val id = detailViewModel.selectedExpense.value?.id
+            if (id != null && date != null){
+                val newExpense = Expense(id, expenseValue, note, date, category)
+                detailViewModel.saveExpense(newExpense)
 
-
-            val msg = if (newExpense.id == 0) {
-                getString(R.string.toast_expense_created)
-            } else {
-                getString(R.string.toast_expense_updated)
+                val msg = if (newExpense.id == 0) {
+                    getString(R.string.toast_expense_created)
+                } else {
+                    getString(R.string.toast_expense_updated)
+                }
+                showToast(msg)
+                mediaPlayer.start()
             }
-            showToast(msg)
-            mediaPlayer.start()
 
             navigateBackToExpenses()
         }
