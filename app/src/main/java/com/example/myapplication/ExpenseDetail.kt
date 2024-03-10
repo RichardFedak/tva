@@ -36,7 +36,11 @@ class ExpenseDetail : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_expense_detail, container, false)
+        return inflater.inflate(R.layout.fragment_expense_detail, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val context = requireContext()
 
         detailViewModel = ViewModelProvider(requireActivity())[DetailViewModel::class.java]
@@ -69,8 +73,6 @@ class ExpenseDetail : Fragment() {
         }
 
         initSaveButton(view, context)
-
-        return view
     }
 
     private fun initSaveButton(view: View, context: Context) {
