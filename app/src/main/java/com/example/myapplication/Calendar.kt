@@ -4,34 +4,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.myapplication.databinding.FragmentCalendarBinding
+import android.widget.CalendarView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.viewmodels.SharedViewModel
 
 class Calendar : Fragment() {
 
-    private lateinit var binding: FragmentCalendarBinding
     private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        binding = FragmentCalendarBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val view = inflater.inflate(R.layout.fragment_calendar, container, false)
 
-        val calendarView = binding.calendarView
+        val calendarView = view.findViewById<CalendarView>(R.id.calendarView)
         sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
 
         calendarView.setOnDateChangeListener { _, year, month, day ->
             sharedViewModel.setSelectedDate(year, month + 1, day)
         }
+
+        return view
     }
 
 }
