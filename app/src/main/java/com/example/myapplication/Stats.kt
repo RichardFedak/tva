@@ -33,7 +33,11 @@ class Stats : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_stats, container, false)
+        return inflater.inflate(R.layout.fragment_stats, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val context = requireContext()
 
         val statsDateFromFilter = view.findViewById<TextView>(R.id.statsDateFromFilter)
@@ -73,7 +77,7 @@ class Stats : Fragment() {
             }
         }
 
-        statsButtonReset.setOnClickListener{
+        statsButtonReset.setOnClickListener {
             statsViewModel.resetFilter()
             removeResultRows(view)
             statsDateFromFilter.text = getString(R.string.stats_filter_from)
@@ -81,8 +85,6 @@ class Stats : Fragment() {
             selectedCategoriesChipGroup.removeAllViews()
             selectedCategoriesChipGroup.visibility = View.GONE
         }
-
-        return view
     }
 
     private fun showDatePicker(textView: TextView, isFromDate: Boolean, context: Context) {
