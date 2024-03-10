@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+
+        this.onBackPressedDispatcher.addCallback(this){} // Disable back button navigation
 
         sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
         detailViewModel = ViewModelProvider(this)[DetailViewModel::class.java]
@@ -49,6 +52,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
     private fun uncheckAllNavItems(bottomNav: BottomNavigationView) {
         bottomNav.menu.setGroupCheckable(0, true, false)
