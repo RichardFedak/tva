@@ -11,7 +11,8 @@ import com.example.myapplication.viewmodels.SharedViewModel
 
 class Calendar : Fragment() {
 
-    private lateinit var binding: FragmentCalendarBinding
+    private var _binding: FragmentCalendarBinding? = null
+    private val binding get() = _binding!!
     private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
@@ -19,7 +20,7 @@ class Calendar : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentCalendarBinding.inflate(inflater, container, false)
+        _binding = FragmentCalendarBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -34,4 +35,8 @@ class Calendar : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
