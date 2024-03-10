@@ -35,8 +35,8 @@ class ExpensesListViewAdapter(private val context: Context, private val expenses
         }
 
         val expense = expenses[position]
-        val valueText = if (expense.value > 999) {
-            "999+"
+        val valueText = if (expense.value > 9999) {
+            "9999+"
         } else {
             expense.value.toString()
         }
